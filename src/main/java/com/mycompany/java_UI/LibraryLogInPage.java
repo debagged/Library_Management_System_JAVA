@@ -24,6 +24,8 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
     
     JFrame logInFrame = new JFrame();
 
+    //try
+    
     CustomRoundedButton loginButton = new CustomRoundedButton("Sign In");
     JTextField usernameField = new JTextField();
     JPasswordField passwordField = new JPasswordField();
