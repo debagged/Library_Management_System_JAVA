@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 public class LibraryLogInPage implements ActionListener, MouseListener{
     
-    static JFrame logInFrame = new JFrame();
+    static JFrame mainFrame = new JFrame();
     
     ComponentStyles.CustomRoundedButton loginButton = new ComponentStyles.CustomRoundedButton("Sign In");
     JTextField usernameField = new JTextField();
@@ -52,13 +52,13 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         //===================================================================//
         ImageIcon icon = new ImageIcon("logo.jpg");
         
-        logInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        logInFrame.setSize(950,600);
-        logInFrame.setResizable(false);
-        logInFrame.setTitle("Log In");
-        logInFrame.setIconImage(icon.getImage());
-        logInFrame.setLayout(new BorderLayout());
-        logInFrame.setLocationRelativeTo(null);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(950,600);
+        mainFrame.setResizable(false);
+        mainFrame.setTitle("Log In");
+        mainFrame.setIconImage(icon.getImage());
+        mainFrame.setLayout(new BorderLayout());
+        mainFrame.setLocationRelativeTo(null);
         
         ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("logInPageBG.jpg");
         bgPanel.setPreferredSize(new Dimension(950,600));
@@ -268,7 +268,7 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         bgPanel.add(footerPanel, BorderLayout.SOUTH);
         bgPanel.add(centerPanel, BorderLayout.CENTER);
         
-        logInFrame.add(bgPanel, BorderLayout.CENTER);
+        mainFrame.add(bgPanel, BorderLayout.CENTER);
         
         // ADDING LAYERED PANE TO LOG IN FIELD //
         logInFieldPanel.add(logInField, "LogIn");
@@ -277,7 +277,7 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         
         //------------------------------------------------------------------ //
         
-        logInFrame.setVisible(true);
+        mainFrame.setVisible(true);
     }
 
     @Override
@@ -309,11 +309,11 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
                 String role = userData.roleValidation(username, password);
             
                 if("Admin".equals(role)){
-                    logInFrame.dispose();
+                    mainFrame.dispose();
                     new AdminPage();
             
                 }else{
-                    logInFrame.dispose();
+                    mainFrame.dispose();
                     new StudentPage();
                 }
             
@@ -334,12 +334,14 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
             invalidMessageLabel.setText(null);
+            mainFrame.setTitle("Reset Password");
             cl.show(logInFieldPanel, "ForgotPass");
             
         }else if(e.getSource()==register2){
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
             invalidMessageLabel.setText(null);
+            mainFrame.setTitle("Register");
             cl.show(logInFieldPanel, "Register");
         }
     }

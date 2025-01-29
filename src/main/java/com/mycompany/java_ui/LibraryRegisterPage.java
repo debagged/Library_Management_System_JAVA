@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.mycompany.java_library.users.*;
+import static com.mycompany.java_ui.LibraryLogInPage.mainFrame;
+
 import java.awt.CardLayout;
 
 public class LibraryRegisterPage implements ActionListener, MouseListener{
@@ -190,7 +192,7 @@ public class LibraryRegisterPage implements ActionListener, MouseListener{
             if(password.equals(confirmPass)){
                 userData.saveDataToFile(username, password);
                 
-                JOptionPane.showMessageDialog(LibraryLogInPage.logInFrame, "Registration Successful", "Registered", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(LibraryLogInPage.mainFrame, "Registration Successful", "Registered", JOptionPane.PLAIN_MESSAGE);
                 usernameField.setText(null);
                 passwordField.setText(null);
                 confirmPasswordField.setText(null);
@@ -212,6 +214,7 @@ public class LibraryRegisterPage implements ActionListener, MouseListener{
             emptyPasswordMessageLabel.setText(null);
             emptyConfirmPasswordMessageLabel.setText(null);
             matchPasswordMessageLabel.setText(null);
+            mainFrame.setTitle("Log In");
             cl.show(LibraryLogInPage.logInFieldPanel, "LogIn");
         }
     }

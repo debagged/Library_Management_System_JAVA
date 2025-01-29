@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.mycompany.java_library.users.*;
+import static com.mycompany.java_ui.LibraryLogInPage.mainFrame;
+
 import java.awt.CardLayout;
 
 public class LibraryForgotPassPage implements ActionListener, MouseListener{
@@ -168,7 +170,7 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
                 matchPasswordMessageLabel.setText(null);
             
             if(userName.equals("admin")){
-                JOptionPane.showMessageDialog(LibraryLogInPage.logInFrame, "NICE TRY", "OKAY", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(LibraryLogInPage.mainFrame, "NICE TRY", "OKAY", JOptionPane.PLAIN_MESSAGE);
                 return;
             }
             
@@ -195,11 +197,11 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
                 }
             
                 if(userData.forgotPassword(userName, newPass)){
-                    JOptionPane.showMessageDialog(LibraryLogInPage.logInFrame, "New password cannot be the old password", "Same Password", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(LibraryLogInPage.mainFrame, "New password cannot be the old password", "Same Password", JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
                 
-                JOptionPane.showMessageDialog(LibraryLogInPage.logInFrame, "Password Reset Successful", "Password Reset", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(LibraryLogInPage.mainFrame, "Password Reset Successful", "Password Reset", JOptionPane.PLAIN_MESSAGE);
                 usernameField.setText(null);
                 newPasswordField.setText(null);
                 confirmNewPasswordField.setText(null);
@@ -207,7 +209,7 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
                 return;
             }
             
-            JOptionPane.showMessageDialog(LibraryLogInPage.logInFrame, "Username Not Found", "Username Not Found", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(LibraryLogInPage.mainFrame, "Username Not Found", "Username Not Found", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
@@ -221,6 +223,7 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
             emptyNewPasswordMessageLabel.setText(null);
             emptyConfirmNewPasswordMessageLabel.setText(null);
             matchPasswordMessageLabel.setText(null);
+            mainFrame.setTitle("Log In");
             cl.show(LibraryLogInPage.logInFieldPanel, "LogIn");
         }
     }
