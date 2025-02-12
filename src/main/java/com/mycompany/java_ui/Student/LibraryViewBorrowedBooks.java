@@ -138,7 +138,7 @@ public class LibraryViewBorrowedBooks implements ActionListener{
         
         if(e.getSource()==backButton){
             frame.dispose();
-            new StudentPage();
+            StudentPage.studentFrame.setVisible(true);
         }
     }
 

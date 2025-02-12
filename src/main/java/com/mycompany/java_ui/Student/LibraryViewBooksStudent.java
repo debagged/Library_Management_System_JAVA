@@ -191,7 +191,7 @@ public class LibraryViewBooksStudent implements ActionListener{
         
         if(e.getSource()==backButton){
             frame.dispose();
-            new StudentPage();
+            StudentPage.studentFrame.setVisible(true);
         }
         
         if(e.getSource()==resetButton){

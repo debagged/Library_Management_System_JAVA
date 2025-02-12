@@ -1,12 +1,13 @@
 package com.mycompany.java_ui.Admin;
 
-import com.mycompany.java_ui.LibraryLogInPage;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import com.mycompany.java_ui.MainPage.LibraryLogInPage;
 
 public class AdminPage implements ActionListener {
     
@@ -62,7 +63,7 @@ public class AdminPage implements ActionListener {
         
         if(e.getSource()==logOutButton){
             frame.dispose();
-            new LibraryLogInPage();
+            LibraryLogInPage.mainFrame.setVisible(true);
         }
     }
     

@@ -1,4 +1,4 @@
-package com.mycompany.java_ui;
+package com.mycompany.java_ui.MainPage;
 
 import com.mycompany.java_ui.Admin.AdminPage;
 import com.mycompany.java_ui.Student.StudentPage;
@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 public class LibraryLogInPage implements ActionListener, MouseListener{
     
-    static JFrame mainFrame = new JFrame();
+    public static JFrame mainFrame = new JFrame();
     
     ComponentStyles.CustomRoundedButton loginButton = new ComponentStyles.CustomRoundedButton("Sign In");
     JTextField usernameField = new JTextField();
@@ -199,11 +199,11 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         usernameField.setBounds(30,60,250,35);
         usernameField.setBackground(Color.decode("#667860"));
         usernameField.setForeground(Color.decode("#E8F1DC"));
-        usernameField.setBorder(new EmptyBorder(5,10,0,0));
+        usernameField.setBorder(new EmptyBorder(5,5,0,0));
         usernameField.setFont(new Font("Calibri", Font.PLAIN, 17));
         
         passwordField.setBounds(30,135,250,35);
-        passwordField.setBorder(new EmptyBorder(5,10,5,0));
+        passwordField.setBorder(new EmptyBorder(5,5,5,0));
         passwordField.setBackground(Color.decode("#667860"));
         passwordField.setForeground(Color.decode("#E8F1DC"));
         passwordField.setFont(new Font(null, Font.PLAIN, 17));
@@ -283,9 +283,33 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
     @Override
     public void actionPerformed(ActionEvent e){
         
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+        CardLayout cl = (CardLayout) logInFieldPanel.getLayout();
+        
+        if(e.getSource()==forgotPass) {
+            
+            emptyUsernameMessageLabel.setText(null);
+            emptyPasswordMessageLabel.setText(null);
+            invalidMessageLabel.setText(null);
+            mainFrame.setTitle("Reset Password");
+            cl.show(logInFieldPanel, "ForgotPass");
+            
+        } else if(e.getSource()==register2) {
+            
+            emptyUsernameMessageLabel.setText(null);
+            emptyPasswordMessageLabel.setText(null);
+            invalidMessageLabel.setText(null);
+            mainFrame.setTitle("Register");
+            cl.show(logInFieldPanel, "Register");
+        }
+        
         UserData userData = new UserData();
         
-        if(e.getSource()==loginButton){
+        if(e.getSource()==loginButton) {
             
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
@@ -294,55 +318,46 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
             String username = usernameField.getText();
             String password = String.valueOf(passwordField.getPassword());
             
-            if(username.isEmpty()){
+            if(username.isEmpty()) {
+                
                 emptyUsernameMessageLabel.setText("Please enter your Username");
                 return;
+                
             }
             
-            if(password.isEmpty()){
+            if (password.isEmpty()) {
+                
                 emptyPasswordMessageLabel.setText("Please enter your Password");
                 return;
+                
             }
             
             if (userData.readDataFromFile(username, password)) {
             
                 String role = userData.roleValidation(username, password);
             
-                if("Admin".equals(role)){
-                    mainFrame.dispose();
+                if("Admin".equals(role)) {
+                    
+                    usernameField.setText(null);
+                    passwordField.setText(null);
+                    usernameField.requestFocusInWindow();
+                    mainFrame.setVisible(false);
                     new AdminPage();
             
-                }else{
-                    mainFrame.dispose();
-                    new StudentPage();
+                } else {
+                    
+                    usernameField.setText(null);
+                    passwordField.setText(null);
+                    usernameField.requestFocusInWindow();
+                    mainFrame.setVisible(false);
+                    new StudentPage(username);
                 }
             
-            }else {
+            } else {
                 emptyUsernameMessageLabel.setText(null);
                 emptyPasswordMessageLabel.setText(null);
                 invalidMessageLabel.setText("Invalid Passowrd/Username");
             }
-        }
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        
-        CardLayout cl = (CardLayout) logInFieldPanel.getLayout();
-        
-        if(e.getSource()==forgotPass){
-            emptyUsernameMessageLabel.setText(null);
-            emptyPasswordMessageLabel.setText(null);
-            invalidMessageLabel.setText(null);
-            mainFrame.setTitle("Reset Password");
-            cl.show(logInFieldPanel, "ForgotPass");
-            
-        }else if(e.getSource()==register2){
-            emptyUsernameMessageLabel.setText(null);
-            emptyPasswordMessageLabel.setText(null);
-            invalidMessageLabel.setText(null);
-            mainFrame.setTitle("Register");
-            cl.show(logInFieldPanel, "Register");
         }
     }
 
@@ -359,36 +374,46 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
     @Override
     public void mouseEntered(MouseEvent e) {
         
-        if(e.getSource()==loginButton){
+        if(e.getSource()==loginButton) {
+            
             loginButton.setLocation(loginButton.getX(), loginButton.getY()-2);
+            
         }
         
-        if(e.getSource()==forgotPass){
+        if(e.getSource()==forgotPass) {
+            
             forgotPassLine.setVisible(true);
+            
         }
         
-        if(e.getSource()==register2){
+        if(e.getSource()==register2) {
+            
             register2.setLocation(register2.getX(), register2.getY()-2);
             registerLine.setLocation(registerLine.getX(), registerLine.getY()-2);
+            
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         
-        if(e.getSource()==loginButton){
+        if(e.getSource()==loginButton) {
+            
             loginButton.setLocation(loginButton.getX(), loginButton.getY()+2);
+            
         }
         
-        if(e.getSource()==forgotPass){
+        if(e.getSource()==forgotPass) { 
             forgotPassLine.setVisible(false);
+            
         }
         
-        if(e.getSource()==register2){
+        if(e.getSource()==register2) {
+            
             register2.setLocation(register2.getX(), register2.getY()+2);
             registerLine.setLocation(registerLine.getX(), registerLine.getY()+2);
+            
         }
-        
     }
     
     public static void main(String[] args){

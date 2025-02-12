@@ -1,4 +1,4 @@
-package com.mycompany.java_ui;
+package com.mycompany.java_ui.MainPage;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -30,10 +30,6 @@ public class ComponentStyles {
             // Paint background with rounded corners
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
-
-            // Paint border if needed
-            g2.setColor(getForeground());
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
 
             g2.dispose();
         }
