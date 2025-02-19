@@ -6,7 +6,7 @@ import java.io.*;
         
         public File sourceFile;
 
-        private static File borrowedBooksFile;
+        //private static File borrowedBooksFile;
 
         protected String book_title = "",
                          book_author = "", 
@@ -32,13 +32,12 @@ import java.io.*;
         public void fileWriterBorrowers(String student_name,
                                         String student_ID,
                                         String book_title,
-                                        String book_author,
-                                        String book_isbn) {
+                                        String book_author) {
 
             // Check if the file is empty, if so, write the header
-            try (FileWriter fileWriter = new FileWriter(borrowedBooksFile, true)) {
-                fileWriter.append(String.format("%s|%s|%s|%s|%s|%n", 
-                                student_name, student_ID, book_title, book_author, book_isbn));
+            try (FileWriter fileWriter = new FileWriter("Borrowed_Books.txt", true)) {
+                fileWriter.append(String.format("%s|%s|%s|%s|%n", 
+                                student_name, student_ID, book_title, book_author));
             } catch(IOException e){}
         }
         
@@ -124,7 +123,9 @@ import java.io.*;
             return false;
         }
         
-        public boolean checkIfBorrowed(String isbn){
+        public boolean checkIfBorrowed(String title, String author){
+
+            String bookInfo = title + "|" + author;
 
             try (BufferedReader reader = new BufferedReader(new FileReader("Borrowed_Books.txt"))){
                  
@@ -134,10 +135,13 @@ import java.io.*;
                 while((borrowedLine = reader.readLine()) != null){
                     String[] parts = borrowedLine.split("\\|");
 
-                    String foundISBN = parts[4].trim();
+                    String foundTitle = parts[2].trim();
+                    String foundAuthor = parts[3].trim();
 
-                    // Check if the file content contains the ISBN
-                    if(foundISBN.equals(isbn)){
+                    String book = foundTitle + "|" + foundAuthor;
+
+                    // Check if the file content contains the Book
+                    if(book.equals(bookInfo)){
                         return true;
                     }
                 }
@@ -147,7 +151,7 @@ import java.io.*;
         public boolean isBorrowed = false;
         
         //Library Functions
-        public void borrowBooks(String isbn, String studName, String studID){
+        /* public void borrowBooks(String isbn, String studName, String studID){
 
             // Ensure the borrowed books file exists
             borrowedBooksFile = new File("Borrowed_Books.txt");
@@ -173,5 +177,28 @@ import java.io.*;
                     }
                 }
             } catch(IOException e){}
+        } */
+
+        public void borrowBooks(String title,String author, String studName, String studID){
+
+            String book = title + "_" + author;
+
+            File bookCoversFolder = new File("BookCovers");
+
+            File[] bookCoversFolderFiles = bookCoversFolder.listFiles(File::isFile);
+            
+            if(bookCoversFolderFiles != null){
+                for(File cover : bookCoversFolderFiles) {
+                    String[] bookDescription = cover.getName().split("[_.]");
+
+                    String bookTitle = bookDescription[0].trim();
+                    String bookAuthor = bookDescription[1].trim();
+
+                        if(book.equalsIgnoreCase(bookTitle + "_" + bookAuthor)){
+                            fileWriterBorrowers(studName, studID, bookTitle,bookAuthor);
+                        }
+                    
+                }
+            }
         }
     }

@@ -11,12 +11,14 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class LibraryLogInPage implements ActionListener, MouseListener{
+public class LibraryLogInPage implements KeyListener, MouseListener{
     
     public static JFrame mainFrame = new JFrame();
     
@@ -201,12 +203,14 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         usernameField.setForeground(Color.decode("#E8F1DC"));
         usernameField.setBorder(new EmptyBorder(5,5,0,0));
         usernameField.setFont(new Font("Calibri", Font.PLAIN, 17));
+        usernameField.addKeyListener(this);
         
         passwordField.setBounds(30,135,250,35);
         passwordField.setBorder(new EmptyBorder(5,5,5,0));
         passwordField.setBackground(Color.decode("#667860"));
         passwordField.setForeground(Color.decode("#E8F1DC"));
         passwordField.setFont(new Font(null, Font.PLAIN, 17));
+        passwordField.addKeyListener(this);
         
         loginButton.setBounds(30,225,250,45);
         loginButton.setFocusable(false);
@@ -214,7 +218,6 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         loginButton.setForeground(Color.white);
         loginButton.setBackground(Color.decode("#123524"));
         loginButton.setMargin(new Insets(15,0,10,10));
-        loginButton.addActionListener(this);
         loginButton.addMouseListener(this);
         
         forgotPass.setBounds(30,200,110,15);
@@ -279,18 +282,12 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         
         mainFrame.setVisible(true);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e){
-        
-    }
     
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    private void handleMouseClick(Object e){
         
         CardLayout cl = (CardLayout) logInFieldPanel.getLayout();
         
-        if(e.getSource()==forgotPass) {
+        if(e == forgotPass) {
             
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
@@ -298,7 +295,7 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
             mainFrame.setTitle("Reset Password");
             cl.show(logInFieldPanel, "ForgotPass");
             
-        } else if(e.getSource()==register2) {
+        } else if(e == register2) {
             
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
@@ -309,7 +306,7 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
         
         UserData userData = new UserData();
         
-        if(e.getSource()==loginButton) {
+        if(e == loginButton) {
             
             emptyUsernameMessageLabel.setText(null);
             emptyPasswordMessageLabel.setText(null);
@@ -342,7 +339,7 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
                     passwordField.setText(null);
                     usernameField.requestFocusInWindow();
                     mainFrame.setVisible(false);
-                    new AdminPage();
+                    new AdminPage(username);
             
                 } else {
                     
@@ -359,6 +356,11 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
                 invalidMessageLabel.setText("Invalid Passowrd/Username");
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        handleMouseClick(e.getSource());
     }
 
     @Override
@@ -414,10 +416,35 @@ public class LibraryLogInPage implements ActionListener, MouseListener{
             registerLine.setLocation(registerLine.getX(), registerLine.getY()+2);
             
         }
+    }   
+    
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        String username = usernameField.getText();
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(!username.isEmpty()){
+                passwordField.requestFocusInWindow();
+            }
+            handleMouseClick(loginButton);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
     
     public static void main(String[] args){
         new LibraryLogInPage();
     }
+
+ 
 
 }

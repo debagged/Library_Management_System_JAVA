@@ -211,16 +211,16 @@ public class LibraryAddBooks implements ActionListener{
         
         if(e.getSource()==backButton){
             frame.dispose();
-            new AdminPage();
+            AdminPage.adminFrame.setVisible(true);
         }
         
         if(e.getSource()==resetButton){
-            newBookAuthorField.setText("");
-            newBookTitleField.setText("");
-            newBookISBNField.setText("");
-            EnterAuthorMessageLabel.setText("");
-            EnterTitleMessageLabel.setText("");
-            EnterISBNMessageLabel.setText("");
+            newBookAuthorField.setText(null);
+            newBookTitleField.setText(null);
+            newBookISBNField.setText(null);
+            EnterAuthorMessageLabel.setText(null);
+            EnterTitleMessageLabel.setText(null);
+            EnterISBNMessageLabel.setText(null);
             newBookAuthorField.requestFocusInWindow();
         }
         
@@ -244,12 +244,12 @@ public class LibraryAddBooks implements ActionListener{
             if(!libFuncs.checkQueue(bookISBN)){
                 libFuncs.tempQueue(bookTitle, bookAuthorName, bookISBN);
                 
-                newBookAuthorField.setText("");
-                newBookTitleField.setText("");
-                newBookISBNField.setText("");
-                EnterAuthorMessageLabel.setText("");
-                EnterTitleMessageLabel.setText("");
-                EnterISBNMessageLabel.setText("");
+                newBookAuthorField.setText(null);
+                newBookTitleField.setText(null);
+                newBookISBNField.setText(null);
+                EnterAuthorMessageLabel.setText(null);
+                EnterTitleMessageLabel.setText(null);
+                EnterISBNMessageLabel.setText(null);
                 newBookAuthorField.requestFocusInWindow();
                 count++;
                 //checkQueueCount();
@@ -272,9 +272,9 @@ public class LibraryAddBooks implements ActionListener{
         
         if(e.getSource()==confirmButton){
             
-            EnterAuthorMessageLabel.setText("");
-            EnterTitleMessageLabel.setText("");
-            EnterISBNMessageLabel.setText("");
+            EnterAuthorMessageLabel.setText(null);
+            EnterTitleMessageLabel.setText(null);
+            EnterISBNMessageLabel.setText(null);
             
             if(!libFuncs.checkAddedBooks(bookISBN) 
                     &&(bookAuthorName.isEmpty() 
@@ -285,12 +285,12 @@ public class LibraryAddBooks implements ActionListener{
                 JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Book Added", JOptionPane.PLAIN_MESSAGE);
                 
                 libFuncs.addBooksFromQueue();
-                newBookAuthorField.setText("");
-                newBookTitleField.setText("");
-                newBookISBNField.setText("");
-                EnterAuthorMessageLabel.setText("");
-                EnterTitleMessageLabel.setText("");
-                EnterISBNMessageLabel.setText("");
+                newBookAuthorField.setText(null);
+                newBookTitleField.setText(null);
+                newBookISBNField.setText(null);
+                EnterAuthorMessageLabel.setText(null);
+                EnterTitleMessageLabel.setText(null);
+                EnterISBNMessageLabel.setText(null);
                 count=0;
                 queueButton.setText("Queue");
                 newBookAuthorField.requestFocusInWindow();
@@ -298,8 +298,8 @@ public class LibraryAddBooks implements ActionListener{
             }
             
             if(bookAuthorName.isEmpty()){
-               EnterAuthorMessageLabel.setText("Please Enter Author Name");
-               return;
+                EnterAuthorMessageLabel.setText("Please Enter Author Name");
+                return;
             }
             
             if(bookTitle.isEmpty()){
@@ -324,12 +324,12 @@ public class LibraryAddBooks implements ActionListener{
                 
                 JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Book Added", JOptionPane.PLAIN_MESSAGE);
 
-                newBookAuthorField.setText("");
-                newBookTitleField.setText("");
-                newBookISBNField.setText("");
-                EnterAuthorMessageLabel.setText("");
-                EnterTitleMessageLabel.setText("");
-                EnterISBNMessageLabel.setText("");
+                newBookAuthorField.setText(null);
+                newBookTitleField.setText(null);
+                newBookISBNField.setText(null);
+                EnterAuthorMessageLabel.setText(null);
+                EnterTitleMessageLabel.setText(null);
+                EnterISBNMessageLabel.setText(null);
                 count = 0;
                 queueButton.setText("Queue");
                 newBookAuthorField.requestFocusInWindow();

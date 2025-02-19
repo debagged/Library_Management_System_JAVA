@@ -16,7 +16,7 @@ public class ComponentStyles {
         
         private int cornerRadius;
 
-        public RoundedPanel(int radius) {
+        public RoundedPanel(int radius) {   
             super();
             this.cornerRadius = radius; // Set the corner radius
             setOpaque(false); // Makes the background transparent
@@ -57,6 +57,33 @@ public class ComponentStyles {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30); // Corner radius of 30
+
+            super.paintComponent(g); // Call the original paint method to paint the text
+        }
+    }
+
+    public static class CustomRoundedButton2 extends JButton {
+        public CustomRoundedButton2(String text) {
+            super(text);
+            setFocusPainted(false); // Remove the default focus painting
+            setContentAreaFilled(false); // Make the background transparent
+            setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Add some padding inside the button
+        }
+    
+        @Override
+        protected void paintComponent(Graphics g) {
+            
+            if (getModel().isPressed()) {
+                g.setColor(Color.decode("#287750")); // Pressed color
+            
+            }else {
+                g.setColor(Color.decode("#677861")); // Normal color
+            }
+
+            // Draw the rounded rectangle
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20); // Corner radius of 30
 
             super.paintComponent(g); // Call the original paint method to paint the text
         }

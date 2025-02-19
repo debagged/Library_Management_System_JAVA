@@ -200,12 +200,12 @@ public class StudentPage implements MouseListener{
 
         if(e.getSource()==viewBorrowedBooksPanel){
             studentFrame.setVisible(false);
-            new LibraryViewBooksStudent();
+            new LibraryViewBorrowedBooks();
         }
 
         if(e.getSource()==borrowBooksPanel){
             studentFrame.setVisible(false);
-            new LibraryViewBorrowedBooks();
+            new BorrowBooks();
         }
 
         if(e.getSource()==logOutLabelContainer){

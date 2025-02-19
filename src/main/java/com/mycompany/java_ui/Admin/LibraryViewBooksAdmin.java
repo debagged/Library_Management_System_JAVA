@@ -138,7 +138,7 @@ public class LibraryViewBooksAdmin implements ActionListener{
         
         if(e.getSource()==backButton){
             frame.dispose();
-            new AdminPage();
+            AdminPage.adminFrame.setVisible(true);
         }
         
         if(e.getSource()==addBooksButton){
@@ -173,7 +173,7 @@ public class LibraryViewBooksAdmin implements ActionListener{
         if (!currentLabels.contains(uniqueBookKey)) {
             // Create and add author label
             
-            if(libFuncs.checkIfBorrowed(isbn)){
+            if(libFuncs.checkIfBorrowed(title, author)){
                 bookAuthorLabel = new JLabel("(Borrowed)"+author);
                 
             } else{
