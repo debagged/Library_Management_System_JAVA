@@ -1,26 +1,13 @@
 package com.mycompany.library.ui.student;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.mycompany.library.functions.LibraryFunctions;
@@ -44,8 +31,7 @@ public class BorrowBooks implements MouseListener{
 
     JPanel mainPanel = new JPanel();
     ArrayList<JPanel> bookPanelsList = new ArrayList<>();
-    ArrayList<String> borrowBookList = new ArrayList<>();
-    ArrayList<String> borrowedBooksList = new ArrayList<>();
+    ArrayList<String> toBorrowBookList = new ArrayList<>();
 
     HashMap<JPanel, JLabel> bookLabelsList = new HashMap<>();
     JPanel borrowedBooksPanel = new JPanel();
@@ -200,6 +186,17 @@ public class BorrowBooks implements MouseListener{
         if(bookCoversFolderFiles != null){
             for(File cover : bookCoversFolderFiles){
 
+                String[] bookDescription = cover.getName().split("[_.]");
+
+                String title = bookDescription[0];
+                String author = bookDescription[1];
+
+                if(libFuncs.checkIfBorrowed(title, author)){
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                    continue;
+                }
+
                 ImageIcon origIcon = new ImageIcon(cover.getPath());
                 Image scaledIcon = origIcon.getImage().getScaledInstance(160, 230, Image.SCALE_SMOOTH);
                 ImageIcon bookCover = new ImageIcon(scaledIcon);
@@ -210,16 +207,6 @@ public class BorrowBooks implements MouseListener{
                 books.setOpaque(true);
                 books.setBackground(new Color(255,255,255,0));
                 books.addMouseListener(this);
-                
-                String[] bookDescription = cover.getName().split("[_.]");
-
-                String title = bookDescription[0];
-                String author = bookDescription[1];
-
-                if(libFuncs.checkIfBorrowed(title, author)){
-                    borrowedBooksList.add(title + " - " + author);
-                    continue;
-                }
 
                 JLabel booksLabel = new JLabel();
                 booksLabel.setIcon(bookCover);
@@ -249,7 +236,7 @@ public class BorrowBooks implements MouseListener{
 
         if(e.getSource()==clearListButton){
             borrowedBooksPanel.removeAll();
-            borrowBookList.clear();
+            toBorrowBookList.clear();
             borrowedBooksPanel.revalidate();
             borrowedBooksPanel.repaint();
         }
@@ -262,7 +249,7 @@ public class BorrowBooks implements MouseListener{
             emptyStudNameMessage.setText(null);
             emptyStudIDMessage.setText(null);
             borrowedBooksPanel.removeAll();
-            borrowBookList.clear();
+            toBorrowBookList.clear();
             borrowedBooksPanel.revalidate();
             borrowedBooksPanel.repaint();
         }
@@ -285,12 +272,12 @@ public class BorrowBooks implements MouseListener{
                 return;
             }
 
-            if(borrowBookList.size() == 0){
+            if(toBorrowBookList.size() == 0){
                 JOptionPane.showMessageDialog(borrowBooksFrame, "Your list is empty!");
                 return;
             }
             
-            for(String elements : borrowBookList){
+            for(String elements : toBorrowBookList){
                 String book = elements.replaceAll("<[^>]*>", "").trim();
 
                 String[] bookInfo = book.split("&emsp;-&emsp;");
@@ -298,11 +285,6 @@ public class BorrowBooks implements MouseListener{
                 String author = bookInfo[1];
 
                 if(!studName.isEmpty() && !studID.isEmpty()){
-                    if(libFuncs.checkIfBorrowed(title, author)){
-                        borrowedBooksList.add(title + " - " + author);
-                        continue;
-                    }
-
                     libFuncs.borrowBooks(title, author, studName, studID);
                 }
             }
@@ -311,43 +293,17 @@ public class BorrowBooks implements MouseListener{
             borrowedListPanel.setLayout(new GridLayout(0,1));
             borrowedListPanel.add(new JLabel("<html>The book/s is/are already borrowed<br><br></html>"));
 
-            int borrowBooksListSize = borrowBookList.size();
-            if(borrowedBooksList.size() != 0){
+            JOptionPane.showMessageDialog(borrowBooksFrame, "Book/s Borrowed Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            studNameField.setText(null);
+            studNameField.requestFocusInWindow();
+            studIDField.setText(null);
+            emptyStudNameMessage.setText(null);
+            emptyStudIDMessage.setText(null);
+            toBorrowBookList.clear();
+            borrowedBooksPanel.removeAll();
+            borrowedBooksPanel.revalidate();
+            borrowedBooksPanel.repaint();
 
-                for(String books : borrowedBooksList){
-                    JLabel borrowedBooks = new JLabel();
-                    borrowedBooks.setText("<html>" + books + "<br></html>");
-
-                    borrowedListPanel.add(borrowedBooks);
-                    borrowBooksListSize--;
-                }
-
-                // BUG
-                borrowedBooksList.clear();
-                borrowBookList.clear();
-                borrowedListPanel.removeAll();
-                borrowedBooksPanel.removeAll();
-                borrowedBooksPanel.revalidate();
-                borrowedBooksPanel.repaint();
-                JOptionPane.showMessageDialog(borrowBooksFrame, borrowedListPanel, "Sorry", JOptionPane.INFORMATION_MESSAGE);
-
-
-            } else if(borrowedBooksList.size() == 0 && borrowBooksListSize != 0) {
-                JOptionPane.showMessageDialog(borrowBooksFrame, "Book/s Borrowed Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                studNameField.setText(null);
-                studNameField.requestFocusInWindow();
-                studIDField.setText(null);
-                emptyStudNameMessage.setText(null);
-                emptyStudIDMessage.setText(null);
-                borrowedBooksPanel.removeAll();
-                borrowBookList.clear();
-                borrowedBooksPanel.revalidate();
-                borrowedBooksPanel.repaint();
-
-            }
-
-            borrowedBooksList.clear();
-            borrowBookList.clear();
             mainPanel.removeAll();
             addPanel();
             mainPanel.revalidate();
@@ -367,13 +323,13 @@ public class BorrowBooks implements MouseListener{
                 infoLabel.setHorizontalTextPosition(JLabel.LEFT);
 
                 if(bookLabel != null){
-                    if(borrowBookList.contains(infoLabel.getText())){
+                    if(toBorrowBookList.contains(infoLabel.getText())){
                         JOptionPane.showMessageDialog(borrowBooksFrame, "This Book is Already in your List");
                         return;
                     }
 
                     borrowedBooksPanel.add(infoLabel);
-                    borrowBookList.add(infoLabel.getText());
+                    toBorrowBookList.add(infoLabel.getText());
 
                     borrowedBooksPanel.revalidate();
                     borrowedBooksPanel.repaint();
