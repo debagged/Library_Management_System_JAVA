@@ -1,16 +1,15 @@
-package com.mycompany.java_ui.MainPage;
+package com.mycompany.library.ui.mainpage;
 
-import com.mycompany.java_ui.Admin.AdminPage;
-import com.mycompany.java_ui.Student.StudentPage;
-import com.mycompany.java_library.users.UserData;
+import com.mycompany.library.ui.styles.ComponentStyles;
+import com.mycompany.library.ui.admin.AdminPage;
+import com.mycompany.library.ui.student.StudentPage;
+import com.mycompany.library.users.UserData;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -62,7 +61,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         mainFrame.setLayout(new BorderLayout());
         mainFrame.setLocationRelativeTo(null);
         
-        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("logInPageBG.jpg");
+        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("src/main/resources/images/mainBG.jpg");
         bgPanel.setPreferredSize(new Dimension(950,600));
         bgPanel.setLayout(new BorderLayout());
         //-------------------------------------------------------------------- //

@@ -1,6 +1,6 @@
-package com.mycompany.java_ui.Admin;
+package com.mycompany.library.ui.admin;
 
-import com.mycompany.java_library.library_function.libraryFunctions;
+import com.mycompany.library.functions.LibraryFunctions;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class LibraryAddBooks implements ActionListener{
     
-    libraryFunctions libFuncs = new libraryFunctions();
+    LibraryFunctions libFuncs = new LibraryFunctions();
 
     JFrame frame = new JFrame();
     JPanel panelContainer = new JPanel();
@@ -338,7 +338,7 @@ public class LibraryAddBooks implements ActionListener{
     }
     
     private void loadLabels() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Books.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Books.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");

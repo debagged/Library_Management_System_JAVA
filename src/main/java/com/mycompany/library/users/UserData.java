@@ -1,4 +1,4 @@
-package com.mycompany.java_library.users;
+package com.mycompany.library.users;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -6,8 +6,10 @@ import java.util.List;
 
 public class UserData {
     
+    String filePath = "src/main/resources/UserData_Log_File.txt";
+
     public void saveDataToFile(String user_name, String password){
-        try (FileWriter fw = new FileWriter("UserData_Log_File.txt", true);
+        try (FileWriter fw = new FileWriter(filePath, true);
                 PrintWriter pw = new PrintWriter(fw)) {
                     pw.println(user_name + ":" + password);
                     pw.println("Role: Student");
@@ -16,7 +18,7 @@ public class UserData {
     }
 
     public boolean readDataFromFile(String username, String password) {
-        try (BufferedReader br = new BufferedReader(new FileReader("UserData_Log_File.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
@@ -30,7 +32,7 @@ public class UserData {
     }
     
     public String roleValidation(String username, String password) {
-        try (BufferedReader br = new BufferedReader(new FileReader("UserData_Log_File.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             //String fileRole;
             while ((line = br.readLine()) != null) {
@@ -48,8 +50,6 @@ public class UserData {
     }
     
     public boolean checkUsername(String username){
-        String filePath = "UserData_Log_File.txt"; // Path to the file
-
         try {
             
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -75,8 +75,6 @@ public class UserData {
     }
     
     public boolean forgotPassword(String targetValue, String newValue){
-        String filePath = "UserData_Log_File.txt"; // Path to the file
-
         try {
             // Read all lines from the file into a list
             List<String> lines = new ArrayList<>();

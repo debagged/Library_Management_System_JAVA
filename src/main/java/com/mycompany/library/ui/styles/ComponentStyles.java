@@ -1,4 +1,4 @@
-package com.mycompany.java_ui.MainPage;
+package com.mycompany.library.ui.styles;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,6 +1,6 @@
-package com.mycompany.java_library;
+package com.mycompany.library;
 
-import com.mycompany.java_ui.MainPage.LibraryLogInPage;
+import com.mycompany.library.ui.mainpage.LibraryLogInPage;
 
 public class Java_Library{
     public static void main(String[] args){

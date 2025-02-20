@@ -1,4 +1,4 @@
-package com.mycompany.java_ui.MainPage;
+package com.mycompany.library.ui.mainpage;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,9 +10,9 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import com.mycompany.java_library.users.*;
-
-import static com.mycompany.java_ui.MainPage.LibraryLogInPage.mainFrame;
+import com.mycompany.library.users.*;
+import com.mycompany.library.ui.styles.ComponentStyles;
+import static com.mycompany.library.ui.mainpage.LibraryLogInPage.mainFrame;
 
 import java.awt.CardLayout;
 

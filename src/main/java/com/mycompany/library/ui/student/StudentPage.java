@@ -1,4 +1,4 @@
-package com.mycompany.java_ui.Admin;
+package com.mycompany.library.ui.student;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,16 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.mycompany.java_ui.MainPage.ComponentStyles;
-import com.mycompany.java_ui.MainPage.LibraryLogInPage;
+import com.mycompany.library.ui.styles.ComponentStyles;
+import com.mycompany.library.ui.mainpage.LibraryLogInPage;
 
-public class AdminPage implements MouseListener{
+public class StudentPage implements MouseListener{
     
-    static JFrame adminFrame = new JFrame();
+    static JFrame studentFrame = new JFrame();
     ComponentStyles.RoundedPanel header = new ComponentStyles.RoundedPanel(20);
 
-    ComponentStyles.RoundedPanel addBooksPanel = new ComponentStyles.RoundedPanel(20);
-    ComponentStyles.RoundedPanel viewBooksPanel = new ComponentStyles.RoundedPanel(20);
+    ComponentStyles.RoundedPanel borrowBooksPanel = new ComponentStyles.RoundedPanel(20);
+    ComponentStyles.RoundedPanel viewBorrowedBooksPanel = new ComponentStyles.RoundedPanel(20);
 
     ComponentStyles.RoundedPanel burgerPanel = new ComponentStyles.RoundedPanel(30);
     ComponentStyles.RoundedPanel burgerMenuPanel = new ComponentStyles.RoundedPanel(20);
@@ -30,18 +30,18 @@ public class AdminPage implements MouseListener{
 
     String currUser;
     
-    public AdminPage(String username){
+    public StudentPage(String username){
 
         this.currUser = username;
 
-        adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminFrame.setSize(950,600);
-        adminFrame.setResizable(false);
-        adminFrame.setTitle("Admin Page");
-        adminFrame.setLayout(new BorderLayout());
-        adminFrame.setLocationRelativeTo(null);
+        studentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        studentFrame.setSize(950,600);
+        studentFrame.setResizable(false);
+        studentFrame.setTitle("Student Page");
+        studentFrame.setLayout(new BorderLayout());
+        studentFrame.setLocationRelativeTo(null);
 
-        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("logInPageBG.jpg");
+        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("src/main/resources/images/mainBG.jpg");
         bgPanel.setPreferredSize(new Dimension(950,600));
         bgPanel.setLayout(null);
 
@@ -75,19 +75,19 @@ public class AdminPage implements MouseListener{
 
         //----------------------Main Buttons--------------------------------//
         
-        ImageIcon origIcon = new ImageIcon("addBooks.png");
+        ImageIcon origIcon = new ImageIcon("src/main/resources/images/BorrowBook.png");
         Image scaledIcon = origIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        ImageIcon addBooksIcon = new ImageIcon(scaledIcon);
+        ImageIcon borrowBooksIcon = new ImageIcon(scaledIcon);
 
-        ImageIcon origIcon2 = new ImageIcon("viewBorrowedBook.png");
+        ImageIcon origIcon2 = new ImageIcon("src/main/resources/images/viewBorrowedBook.png");
         Image scaledIcon2 = origIcon2.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon viewBorrowedBooksIcon = new ImageIcon(scaledIcon2);
 
-        ImageIcon origIcon3 = new ImageIcon("burger.png");
+        ImageIcon origIcon3 = new ImageIcon("src/main/resources/images/burger.png");
         Image scaledIcon3 = origIcon3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon burgerIcon = new ImageIcon(scaledIcon3);
 
-        ImageIcon origIcon4 = new ImageIcon("logout.png");
+        ImageIcon origIcon4 = new ImageIcon("src/main/resources/images/logout.png");
         Image scaledIcon4 = origIcon4.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         ImageIcon logOutIcon = new ImageIcon(scaledIcon4);
 
@@ -96,40 +96,38 @@ public class AdminPage implements MouseListener{
         mainButtonsContainer.setLayout(null);
         mainButtonsContainer.setOpaque(false);
 
-        //--------------------------ADD BOOKS----------------------------//
-        JLabel addBooksLabel = new JLabel("Add Books");
-        addBooksLabel.setBounds(5,10,240,190);
-        addBooksLabel.setIcon(addBooksIcon);
-        addBooksLabel.setFont(new Font("Serif", Font.BOLD,20));
-        addBooksLabel.setHorizontalTextPosition(JLabel.CENTER);
-        addBooksLabel.setVerticalTextPosition(JLabel.BOTTOM);
-        addBooksLabel.setHorizontalAlignment(JLabel.CENTER);
-        addBooksLabel.setIconTextGap(20);
+        //--------------------------BORROW BOOKS----------------------------//
+        JLabel borrowBooksLabel = new JLabel("Borrow Books");
+        borrowBooksLabel.setBounds(60,10,240,190);
+        borrowBooksLabel.setIcon(borrowBooksIcon);
+        borrowBooksLabel.setFont(new Font("Serif", Font.BOLD,20));
+        borrowBooksLabel.setHorizontalTextPosition(JLabel.CENTER);
+        borrowBooksLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        borrowBooksLabel.setIconTextGap(20);
 
-        addBooksPanel.setBounds(5,15,240,190);
-        addBooksPanel.setLayout(null);
-        addBooksPanel.add(addBooksLabel);
-        addBooksPanel.setBackground(new Color(229,239,218,120));
-        addBooksPanel.addMouseListener(this);
+        borrowBooksPanel.setBounds(5,15,240,190);
+        borrowBooksPanel.setLayout(null);
+        borrowBooksPanel.add(borrowBooksLabel);
+        borrowBooksPanel.setBackground(new Color(229,239,218,120));
+        borrowBooksPanel.addMouseListener(this);
 
         //-----------------------VIEW BORROWED BOOKS-------------------------//
-        JLabel viewBooksLabel = new JLabel("View Books");
-        viewBooksLabel.setBounds(5,5,240,190);
-        viewBooksLabel.setIcon(viewBorrowedBooksIcon);
-        viewBooksLabel.setFont(new Font("Serif", Font.BOLD,20));
-        viewBooksLabel.setHorizontalTextPosition(JLabel.CENTER);
-        viewBooksLabel.setVerticalTextPosition(JLabel.BOTTOM);
-        viewBooksLabel.setHorizontalAlignment(JLabel.CENTER);
-        viewBooksLabel.setIconTextGap(25);
+        JLabel viewBorrowedBooksLabel = new JLabel("View Borrowed Books");
+        viewBorrowedBooksLabel.setBounds(30,10,240,190);
+        viewBorrowedBooksLabel.setIcon(viewBorrowedBooksIcon);
+        viewBorrowedBooksLabel.setFont(new Font("Serif", Font.BOLD,20));
+        viewBorrowedBooksLabel.setHorizontalTextPosition(JLabel.CENTER);
+        viewBorrowedBooksLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        viewBorrowedBooksLabel.setIconTextGap(20);
 
-        viewBooksPanel.setBounds(255,15,240,190);
-        viewBooksPanel.setLayout(null);
-        viewBooksPanel.add(viewBooksLabel);
-        viewBooksPanel.setBackground(new Color(229,239,218,120));
-        viewBooksPanel.addMouseListener(this);
+        viewBorrowedBooksPanel.setBounds(255,15,240,190);
+        viewBorrowedBooksPanel.setLayout(null);
+        viewBorrowedBooksPanel.add(viewBorrowedBooksLabel);
+        viewBorrowedBooksPanel.setBackground(new Color(229,239,218,120));
+        viewBorrowedBooksPanel.addMouseListener(this);
 
-        mainButtonsContainer.add(addBooksPanel);
-        mainButtonsContainer.add(viewBooksPanel);
+        mainButtonsContainer.add(borrowBooksPanel);
+        mainButtonsContainer.add(viewBorrowedBooksPanel);
         //--------------------------------------------------------------------//
         //--------------------------------------------------------------------//
 
@@ -190,8 +188,8 @@ public class AdminPage implements MouseListener{
         bgPanel.add(burgerPanel);
         bgPanel.add(mainButtonsContainer);
         bgPanel.add(header);
-        adminFrame.add(bgPanel);
-        adminFrame.setVisible(true);
+        studentFrame.add(bgPanel);
+        studentFrame.setVisible(true);
     }
 
     @Override
@@ -200,19 +198,19 @@ public class AdminPage implements MouseListener{
             burgerMenuPanel.setVisible(!burgerMenuPanel.isVisible());
         }
 
-        if(e.getSource()==viewBooksPanel){
-            adminFrame.setVisible(false);
-            new LibraryViewBooksAdmin();
+        if(e.getSource()==viewBorrowedBooksPanel){
+            studentFrame.setVisible(false);
+            new LibraryViewBorrowedBooks();
         }
 
-        if(e.getSource()==addBooksPanel){
-            adminFrame.setVisible(false);
-            new LibraryAddBooks();
+        if(e.getSource()==borrowBooksPanel){
+            studentFrame.setVisible(false);
+            new BorrowBooks();
         }
 
         if(e.getSource()==logOutLabelContainer){
             burgerMenuPanel.setVisible(false);
-            adminFrame.dispose();
+            studentFrame.dispose();
             LibraryLogInPage.mainFrame.setVisible(true);
         }
     }
@@ -227,12 +225,12 @@ public class AdminPage implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(e.getSource()==addBooksPanel){
-            addBooksPanel.setLocation(addBooksPanel.getX(), addBooksPanel.getY()-10);
+        if(e.getSource()==borrowBooksPanel){
+            borrowBooksPanel.setLocation(borrowBooksPanel.getX(), borrowBooksPanel.getY()-10);
         }
 
-        if(e.getSource()==viewBooksPanel){
-            viewBooksPanel.setLocation(viewBooksPanel.getX(), viewBooksPanel.getY()-10);
+        if(e.getSource()==viewBorrowedBooksPanel){
+            viewBorrowedBooksPanel.setLocation(viewBorrowedBooksPanel.getX(), viewBorrowedBooksPanel.getY()-10);
         }
         
         if(e.getSource()==burgerPanel){
@@ -247,12 +245,12 @@ public class AdminPage implements MouseListener{
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if(e.getSource()==addBooksPanel){
-            addBooksPanel.setLocation(addBooksPanel.getX(), addBooksPanel.getY()+10);
+        if(e.getSource()==borrowBooksPanel){
+            borrowBooksPanel.setLocation(borrowBooksPanel.getX(), borrowBooksPanel.getY()+10);
         }
 
-        if(e.getSource()==viewBooksPanel){
-            viewBooksPanel.setLocation(viewBooksPanel.getX(), viewBooksPanel.getY()+10);
+        if(e.getSource()==viewBorrowedBooksPanel){
+            viewBorrowedBooksPanel.setLocation(viewBorrowedBooksPanel.getX(), viewBorrowedBooksPanel.getY()+10);
         }
 
         if(e.getSource()==burgerPanel){
@@ -266,6 +264,6 @@ public class AdminPage implements MouseListener{
     }
     
     public static void main(String[] args){
-        new AdminPage("admin");
+        new StudentPage("admin");
     }
 }

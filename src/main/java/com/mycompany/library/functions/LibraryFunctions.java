@@ -1,8 +1,8 @@
-package com.mycompany.java_library.library_function;
+package com.mycompany.library.functions;
 
 import java.io.*;
 
-    public class libraryFunctions {
+    public class LibraryFunctions {
         
         public File sourceFile;
 
@@ -16,7 +16,7 @@ import java.io.*;
         ///  BOOKS  ///
         ///////////////
         public void fileWriterBooks(String book_title, String book_author, String book_isbn) {
-            try (FileWriter fileWrite = new FileWriter("Books.txt", true)) { 
+            try (FileWriter fileWrite = new FileWriter("src/main/resources/Books.txt", true)) { 
                 fileWrite.append(String.format("%s|%s|%s%n", 
                             book_author, book_title, book_isbn));
 
@@ -35,7 +35,7 @@ import java.io.*;
                                         String book_author) {
 
             // Check if the file is empty, if so, write the header
-            try (FileWriter fileWriter = new FileWriter("Borrowed_Books.txt", true)) {
+            try (FileWriter fileWriter = new FileWriter("src/main/resources/Borrowed_Books.txt", true)) {
                 fileWriter.append(String.format("%s|%s|%s|%s|%n", 
                                 student_name, student_ID, book_title, book_author));
             } catch(IOException e){}
@@ -50,7 +50,7 @@ import java.io.*;
         }
         
         public boolean checkQueue(String isbn){
-            try(BufferedReader reader = new BufferedReader(new FileReader("tempQueue.txt"))){
+            try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/tempQueue.txt"))){
                 String borrowedLine;
 
                 while((borrowedLine = reader.readLine()) != null){
@@ -67,10 +67,10 @@ import java.io.*;
         
         public void addBooksFromQueue(){
             
-            File file = new File("tempQueue.txt");
+            File file = new File("src/main/resources/tempQueue.txt");
             
             try(BufferedReader tempReader = new BufferedReader(new FileReader(file));
-                BufferedWriter tempWriter = new BufferedWriter(new FileWriter("Books.txt", true))) {
+                BufferedWriter tempWriter = new BufferedWriter(new FileWriter("src/main/resources/Books.txt", true))) {
                 
                 String line;
                 // Read and write line by line
@@ -90,7 +90,7 @@ import java.io.*;
         
         public boolean checkAddedBooks(String isbn){
 
-            try(BufferedReader reader = new BufferedReader(new FileReader("Books.txt"))){
+            try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Books.txt"))){
                 String borrowedLine;
 
                 while((borrowedLine = reader.readLine()) != null){
@@ -107,7 +107,7 @@ import java.io.*;
         
         public boolean checkBorrowedBooks(String isbn){
 
-            try(BufferedReader reader = new BufferedReader(new FileReader("Borrowed_Books.txt"))){
+            try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Borrowed_Books.txt"))){
                 String borrowedLine;
 
                 while((borrowedLine = reader.readLine()) != null){
@@ -127,7 +127,7 @@ import java.io.*;
 
             String bookInfo = title + "|" + author;
 
-            try (BufferedReader reader = new BufferedReader(new FileReader("Borrowed_Books.txt"))){
+            try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Borrowed_Books.txt"))){
                  
                 // Read the file content into a String
                 String borrowedLine;
@@ -183,7 +183,7 @@ import java.io.*;
 
             String book = title + "_" + author;
 
-            File bookCoversFolder = new File("BookCovers");
+            File bookCoversFolder = new File("src/main/resources/BookCovers");
 
             File[] bookCoversFolderFiles = bookCoversFolder.listFiles(File::isFile);
             

@@ -1,6 +1,6 @@
-package com.mycompany.java_ui.Admin;
+package com.mycompany.library.ui.admin;
 
-import com.mycompany.java_library.library_function.libraryFunctions;
+import com.mycompany.library.functions.LibraryFunctions;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,34 +9,30 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class viewQueue implements ActionListener{
+public class LibraryViewBooksAdmin implements ActionListener{
     
-    libraryFunctions libFuncs = new libraryFunctions();
+    LibraryFunctions libFuncs = new LibraryFunctions();
 
     JFrame frame = new JFrame();
-    
     JPanel panelContainer = new JPanel();
     JPanel labelFooter = new JPanel();
     JPanel labelHeader = new JPanel();
-    
     JLabel authorLabel = new JLabel("Author");
     JLabel titleLabel = new JLabel("Title");
     JLabel ISBNLabel = new JLabel("ISBN");
-    
     JPanel bookAuthorPanel = new JPanel();
     JPanel bookTitlePanel = new JPanel();
     JPanel bookISBNPanel = new JPanel();
-    
     JLabel bookAuthorLabel;
     JLabel bookTitleLabel;
     JLabel bookISBNLabel;
     
-    JButton exitButton = new JButton("Exit");
     JButton addBooksButton = new JButton("Add Books");
+    JButton backButton = new JButton("Back");
     
     private Set<String> currentLabels;
 
-    public viewQueue() {
+    public LibraryViewBooksAdmin() {
         
         currentLabels = new HashSet<>();
         
@@ -44,15 +40,15 @@ public class viewQueue implements ActionListener{
         
         bookAuthorPanel.setBackground(Color.decode("#03346E"));
         bookAuthorPanel.setLayout(new BoxLayout(bookAuthorPanel, BoxLayout.Y_AXIS));
-        bookAuthorPanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
+        bookAuthorPanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
         
         bookTitlePanel.setBackground(Color.decode("#03346E"));
         bookTitlePanel.setLayout(new BoxLayout(bookTitlePanel, BoxLayout.Y_AXIS));
-        bookTitlePanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
+        bookTitlePanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
         
         bookISBNPanel.setBackground(Color.decode("#03346E"));
         bookISBNPanel.setLayout(new BoxLayout(bookISBNPanel, BoxLayout.Y_AXIS));
-        bookISBNPanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
+        bookISBNPanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
         
         panelContainer.add(bookAuthorPanel);
         panelContainer.add(bookTitlePanel);
@@ -64,15 +60,15 @@ public class viewQueue implements ActionListener{
 
         loadLabels();
         
-        authorLabel.setBounds(90,15,50,12);
+        authorLabel.setBounds(135,15,50,12);
         authorLabel.setForeground(Color.decode("#E2E2B6"));
         authorLabel.setFont(new Font(null, Font.BOLD, 15));
         
-        titleLabel.setBounds(320,15,50,12);
+        titleLabel.setBounds(460,15,50,12);
         titleLabel.setForeground(Color.decode("#E2E2B6"));
         titleLabel.setFont(new Font(null, Font.BOLD, 15));
         
-        ISBNLabel.setBounds(540,15,50,12);
+        ISBNLabel.setBounds(775,15,50,12);
         ISBNLabel.setForeground(Color.decode("#E2E2B6"));
         ISBNLabel.setFont(new Font(null, Font.BOLD, 15));
         
@@ -83,24 +79,20 @@ public class viewQueue implements ActionListener{
         labelHeader.add(titleLabel);
         labelHeader.add(ISBNLabel);
         
-        exitButton.setBounds(145,65,140,60);
-        exitButton.addActionListener(this);
-        exitButton.setFocusable(false);
+        backButton.setBounds(270,65,180,60);
+        backButton.addActionListener(this);
+        backButton.setFocusable(false);
         
-        if(LibraryAddBooks.count != 0){
-         addBooksButton.setText(String.format("Add Books(%d)", LibraryAddBooks.count));   
-        }
-        
-        addBooksButton.setBounds(365,65,140,60);
+        addBooksButton.setBounds(510,65,180,60);
         addBooksButton.addActionListener(this);
         addBooksButton.setFocusable(false);
         
-        labelFooter.setLayout(null); // Center the panel
+        labelFooter.setLayout(null);
         labelFooter.setBackground(Color.decode("#021526"));
-        labelFooter.setPreferredSize(new Dimension(700,200));
-        
-        labelFooter.add(exitButton);
+        labelFooter.setPreferredSize(new Dimension(1000,200));
+
         labelFooter.add(addBooksButton);
+        labelFooter.add(backButton);     
         
         JPanel container = new JPanel();
         JPanel border1 = new JPanel();
@@ -134,8 +126,8 @@ public class viewQueue implements ActionListener{
         frame.add(container, BorderLayout.CENTER);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("View Queue");
-        frame.setSize(700, 400);
+        frame.setTitle("View Books");
+        frame.setSize(1000, 600);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -144,22 +136,21 @@ public class viewQueue implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        if(e.getSource()==exitButton){
+        if(e.getSource()==backButton){
             frame.dispose();
+            AdminPage.adminFrame.setVisible(true);
         }
         
         if(e.getSource()==addBooksButton){
-            libFuncs.addBooksFromQueue();
-            LibraryAddBooks.count = 0;
-            LibraryAddBooks.queueButton.setText("Queue");
-            JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Books Added", JOptionPane.PLAIN_MESSAGE);
             frame.dispose();
+            new LibraryAddBooks();
         }
     }
-
+    
     private void loadLabels() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("tempQueue.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Books.txt"))) {
             String line;
+            
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 
@@ -170,7 +161,7 @@ public class viewQueue implements ActionListener{
                 addLabel(bookAuthor, bookTitle, bookISBN);
                 
             }
-        } catch (IOException e) {}
+        } catch (IOException e){}
     }
     
     private void addLabel(String author, String title, String isbn) {
@@ -181,7 +172,14 @@ public class viewQueue implements ActionListener{
         // Check if the combination of author, title, and isbn already exists
         if (!currentLabels.contains(uniqueBookKey)) {
             // Create and add author label
-            bookAuthorLabel = new JLabel(author);
+            
+            if(libFuncs.checkIfBorrowed(title, author)){
+                bookAuthorLabel = new JLabel("(Borrowed)"+author);
+                
+            } else{
+                bookAuthorLabel = new JLabel(author);
+            }
+            
             bookAuthorLabel.setForeground(Color.decode("#E2E2B6"));
             bookAuthorLabel.setFont(new Font(null, Font.PLAIN, 15));
             bookAuthorPanel.add(bookAuthorLabel);
@@ -204,6 +202,6 @@ public class viewQueue implements ActionListener{
     }
         
     public static void main(String[] args) {
-        new viewQueue();
+        new LibraryViewBooksAdmin();
     }
 }

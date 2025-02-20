@@ -1,4 +1,4 @@
-package com.mycompany.java_ui.Student;
+package com.mycompany.library.ui.student;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,8 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.mycompany.java_library.library_function.libraryFunctions;
-import com.mycompany.java_ui.MainPage.ComponentStyles;
+import com.mycompany.library.functions.LibraryFunctions;
+import com.mycompany.library.ui.styles.ComponentStyles;
 
 public class BorrowBooks implements MouseListener{
 
@@ -39,6 +39,7 @@ public class BorrowBooks implements MouseListener{
     JComboBox<String> choices = new JComboBox<>(); 
 
     ComponentStyles.CustomRoundedButton2 confirmButton = new ComponentStyles.CustomRoundedButton2("Confirm");
+    ComponentStyles.CustomRoundedButton2 clearListButton = new ComponentStyles.CustomRoundedButton2("Clear List");
     ComponentStyles.CustomRoundedButton2 resetButton = new ComponentStyles.CustomRoundedButton2("Reset");
 
     JPanel mainPanel = new JPanel();
@@ -51,10 +52,11 @@ public class BorrowBooks implements MouseListener{
 
     ComponentStyles.RoundedPanel homeButtonPanel = new ComponentStyles.RoundedPanel(20);
 
-    libraryFunctions libFuncs = new libraryFunctions();
+    LibraryFunctions libFuncs = new LibraryFunctions();
 
     public BorrowBooks(){
 
+        // ---------------------------------FRAME SET UP------------------------------//
         borrowBooksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         borrowBooksFrame.setSize(950,600);
         borrowBooksFrame.setResizable(false);
@@ -62,9 +64,10 @@ public class BorrowBooks implements MouseListener{
         borrowBooksFrame.setLayout(new BorderLayout());
         borrowBooksFrame.setLocationRelativeTo(null);
 
-        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("logInPageBG.jpg");
+        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("src/main/resources/images/mainBG.jpg");
         bgPanel.setPreferredSize(new Dimension(950,600));
         bgPanel.setLayout(null);
+        //--------------------------------------------------------------------------//
 
         //--------------------------------INPUT PANEL------------------------------//
         ComponentStyles.RoundedPanel inputPanel = new ComponentStyles.RoundedPanel(20);
@@ -85,7 +88,6 @@ public class BorrowBooks implements MouseListener{
         emptyStudNameMessage.setBounds(30,85,135,15);
         emptyStudNameMessage.setForeground(Color.decode("#BE3144"));
         emptyStudNameMessage.setFont(new Font(null, Font.ITALIC,11));
-        //emptyStudNameMessage.setVisible(false);
 
         JLabel studIDLabel = new JLabel("Enter Student ID:");
         studIDLabel.setBounds(30,100,165,25);
@@ -100,21 +102,19 @@ public class BorrowBooks implements MouseListener{
         emptyStudIDMessage.setBounds(30,165,135,15);
         emptyStudIDMessage.setForeground(Color.decode("#BE3144"));
         emptyStudIDMessage.setFont(new Font(null, Font.ITALIC,11));
-        //emptyStudIDMessage.setVisible(false);
 
         JLabel borrowBookLabel = new JLabel("Borrowed Book/s:");
-        borrowBookLabel.setBounds(300,20,200,25);
+        borrowBookLabel.setBounds(350,20,200,25);
         borrowBookLabel.setFont(new Font("Sans-Serif", Font.BOLD, 20));
         borrowBookLabel.setForeground(Color.decode("#fbf8ef"));
 
         borrowedBooksPanel.setLayout(new GridLayout(0,1));
         borrowedBooksPanel.setBackground(Color.decode("#e5efda"));
-
         
         JScrollPane borrowedBookScrollPane = new JScrollPane(borrowedBooksPanel);
         borrowedBookScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         borrowedBookScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        borrowedBookScrollPane.setBounds(300,50,250,50);
+        borrowedBookScrollPane.setBounds(350,50,270,50);
         borrowedBookScrollPane.setOpaque(false);
         borrowedBookScrollPane.getViewport().setOpaque(false);
         borrowedBookScrollPane.setBorder(null);
@@ -122,7 +122,10 @@ public class BorrowBooks implements MouseListener{
         confirmButton.setBounds(300,130,120,40);
         confirmButton.addMouseListener(this);
 
-        resetButton.setBounds(430,130,120,40);
+        clearListButton.setBounds(430,130,120,40);
+        clearListButton.addMouseListener(this);
+
+        resetButton.setBounds(560,130,120,40);
         resetButton.addMouseListener(this);
         //-------------------------------------------------------------------------//
 
@@ -150,7 +153,7 @@ public class BorrowBooks implements MouseListener{
         //--------------------------------------------------------------------------//
 
         //--------------------------HOME BUTTON-------------------------------------//
-        ImageIcon origIcon = new ImageIcon("home.png");
+        ImageIcon origIcon = new ImageIcon("src/main/resources/images/home.png");
         Image scaledIcon = origIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon homeIcon = new ImageIcon(scaledIcon);
 
@@ -163,6 +166,7 @@ public class BorrowBooks implements MouseListener{
 
         //---------------------------------------------------------------------------//
 
+        //--------------------ADDING OF COMPONENTS (INPUT PANEL)---------------------//
         inputPanel.add(studNameLabel);
         inputPanel.add(studNameField);
         inputPanel.add(emptyStudNameMessage);
@@ -172,8 +176,11 @@ public class BorrowBooks implements MouseListener{
         inputPanel.add(borrowBookLabel);
         inputPanel.add(borrowedBookScrollPane);
         inputPanel.add(confirmButton);
+        inputPanel.add(clearListButton);
         inputPanel.add(resetButton);
-
+        //----------------------------------------------------------------------------//
+        
+        //--------------------ADDING OF COMPONENTS (MAIN PANEL)-----------------------//
         bgPanel.add(inputPanel);
         bgPanel.add(mainScrollPane);
         bgPanel.add(upperLine);
@@ -182,11 +189,12 @@ public class BorrowBooks implements MouseListener{
 
         borrowBooksFrame.add(bgPanel);
         borrowBooksFrame.setVisible(true);
+        //----------------------------------------------------------------------------//
     }
 
     public void addPanel(){
 
-        File bookCoversFolder = new File("BookCovers");
+        File bookCoversFolder = new File("src/main/resources/BookCovers");
 
         File[] bookCoversFolderFiles = bookCoversFolder.listFiles(File::isFile);
         if(bookCoversFolderFiles != null){
@@ -239,6 +247,13 @@ public class BorrowBooks implements MouseListener{
             StudentPage.studentFrame.setVisible(true);
         }
 
+        if(e.getSource()==clearListButton){
+            borrowedBooksPanel.removeAll();
+            borrowBookList.clear();
+            borrowedBooksPanel.revalidate();
+            borrowedBooksPanel.repaint();
+        }
+
         if(e.getSource()==resetButton){
 
             studNameField.setText(null);
@@ -250,8 +265,6 @@ public class BorrowBooks implements MouseListener{
             borrowBookList.clear();
             borrowedBooksPanel.revalidate();
             borrowedBooksPanel.repaint();
-            mainPanel.revalidate();
-            mainPanel.repaint();
         }
 
         if(e.getSource()==confirmButton){
@@ -298,7 +311,7 @@ public class BorrowBooks implements MouseListener{
             borrowedListPanel.setLayout(new GridLayout(0,1));
             borrowedListPanel.add(new JLabel("<html>The book/s is/are already borrowed<br><br></html>"));
 
-            int borrowedBooksListSize = borrowBookList.size();
+            int borrowBooksListSize = borrowBookList.size();
             if(borrowedBooksList.size() != 0){
 
                 for(String books : borrowedBooksList){
@@ -306,13 +319,20 @@ public class BorrowBooks implements MouseListener{
                     borrowedBooks.setText("<html>" + books + "<br></html>");
 
                     borrowedListPanel.add(borrowedBooks);
-                    borrowedBooksListSize--;
+                    borrowBooksListSize--;
                 }
 
-                JOptionPane.showMessageDialog(borrowBooksFrame, borrowedListPanel);
+                // BUG
                 borrowedBooksList.clear();
+                borrowBookList.clear();
+                borrowedListPanel.removeAll();
+                borrowedBooksPanel.removeAll();
+                borrowedBooksPanel.revalidate();
+                borrowedBooksPanel.repaint();
+                JOptionPane.showMessageDialog(borrowBooksFrame, borrowedListPanel, "Sorry", JOptionPane.INFORMATION_MESSAGE);
 
-            } else if(borrowedBooksList.size() == 0 && borrowedBooksListSize != 0) {
+
+            } else if(borrowedBooksList.size() == 0 && borrowBooksListSize != 0) {
                 JOptionPane.showMessageDialog(borrowBooksFrame, "Book/s Borrowed Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 studNameField.setText(null);
                 studNameField.requestFocusInWindow();
@@ -325,6 +345,13 @@ public class BorrowBooks implements MouseListener{
                 borrowedBooksPanel.repaint();
 
             }
+
+            borrowedBooksList.clear();
+            borrowBookList.clear();
+            mainPanel.removeAll();
+            addPanel();
+            mainPanel.revalidate();
+            mainPanel.repaint();
         }
 
         for(JPanel book : bookPanelsList){

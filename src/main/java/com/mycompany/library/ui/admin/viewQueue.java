@@ -1,5 +1,6 @@
-package com.mycompany.java_ui.Student;
+package com.mycompany.library.ui.admin;
 
+import com.mycompany.library.functions.LibraryFunctions;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,91 +9,98 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LibraryViewBorrowedBooks implements ActionListener{
+public class viewQueue implements ActionListener{
+    
+    LibraryFunctions libFuncs = new LibraryFunctions();
 
     JFrame frame = new JFrame();
+    
     JPanel panelContainer = new JPanel();
+    JPanel labelFooter = new JPanel();
     JPanel labelHeader = new JPanel();
-    JLabel borrowerNameLabel = new JLabel("Borrower Name");
+    
     JLabel authorLabel = new JLabel("Author");
     JLabel titleLabel = new JLabel("Title");
     JLabel ISBNLabel = new JLabel("ISBN");
-    JPanel bookBorrowerNamePanel = new JPanel();
+    
     JPanel bookAuthorPanel = new JPanel();
     JPanel bookTitlePanel = new JPanel();
     JPanel bookISBNPanel = new JPanel();
-    JLabel bookBorrowerNameLabel;
+    
     JLabel bookAuthorLabel;
     JLabel bookTitleLabel;
     JLabel bookISBNLabel;
     
-    JButton backButton = new JButton("<");
+    JButton exitButton = new JButton("Exit");
+    JButton addBooksButton = new JButton("Add Books");
     
     private Set<String> currentLabels;
 
-    public LibraryViewBorrowedBooks() {
+    public viewQueue() {
         
         currentLabels = new HashSet<>();
         
         panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.X_AXIS));
         
-        bookBorrowerNamePanel.setBackground(Color.decode("#03346E"));
-        bookBorrowerNamePanel.setLayout(new BoxLayout(bookBorrowerNamePanel, BoxLayout.Y_AXIS));
-        bookBorrowerNamePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
-        
         bookAuthorPanel.setBackground(Color.decode("#03346E"));
         bookAuthorPanel.setLayout(new BoxLayout(bookAuthorPanel, BoxLayout.Y_AXIS));
-        bookAuthorPanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+        bookAuthorPanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
         
         bookTitlePanel.setBackground(Color.decode("#03346E"));
         bookTitlePanel.setLayout(new BoxLayout(bookTitlePanel, BoxLayout.Y_AXIS));
-        bookTitlePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+        bookTitlePanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
         
         bookISBNPanel.setBackground(Color.decode("#03346E"));
         bookISBNPanel.setLayout(new BoxLayout(bookISBNPanel, BoxLayout.Y_AXIS));
-        bookISBNPanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+        bookISBNPanel.setMaximumSize(new Dimension(233,Integer.MAX_VALUE));
         
-        panelContainer.add(bookBorrowerNamePanel);
         panelContainer.add(bookAuthorPanel);
         panelContainer.add(bookTitlePanel);
         panelContainer.add(bookISBNPanel);
         
         JScrollPane scrollPane = new JScrollPane(panelContainer);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         loadLabels();
         
-        borrowerNameLabel.setBounds(95,15,150,12);
-        borrowerNameLabel.setForeground(Color.decode("#E2E2B6"));
-        borrowerNameLabel.setFont(new Font(null, Font.BOLD, 15));
-        
-        authorLabel.setBounds(410,15,50,12);
+        authorLabel.setBounds(90,15,50,12);
         authorLabel.setForeground(Color.decode("#E2E2B6"));
         authorLabel.setFont(new Font(null, Font.BOLD, 15));
         
-        titleLabel.setBounds(700,15,50,12);
+        titleLabel.setBounds(320,15,50,12);
         titleLabel.setForeground(Color.decode("#E2E2B6"));
         titleLabel.setFont(new Font(null, Font.BOLD, 15));
         
-        ISBNLabel.setBounds(990,15,50,12);
+        ISBNLabel.setBounds(540,15,50,12);
         ISBNLabel.setForeground(Color.decode("#E2E2B6"));
         ISBNLabel.setFont(new Font(null, Font.BOLD, 15));
         
-        backButton.setBounds(10,10,20,20);
-        backButton.setFont(new Font(null, Font.PLAIN, 12));
-        backButton.setMargin(new Insets(0, 0, 0, 0));
-        backButton.addActionListener(this);
-        backButton.setFocusable(false);
-        
-        labelHeader.setLayout(null);
-        labelHeader.setPreferredSize(new Dimension(1500,40));
+        labelHeader.setLayout(null); // Center the panel
+        labelHeader.setPreferredSize(new Dimension(40,40));
         labelHeader.setBackground(Color.decode("#021526"));
-        
-        labelHeader.add(backButton);
-        labelHeader.add(borrowerNameLabel);
         labelHeader.add(authorLabel);
         labelHeader.add(titleLabel);
         labelHeader.add(ISBNLabel);
+        
+        exitButton.setBounds(145,65,140,60);
+        exitButton.addActionListener(this);
+        exitButton.setFocusable(false);
+        
+        if(LibraryAddBooks.count != 0){
+         addBooksButton.setText(String.format("Add Books(%d)", LibraryAddBooks.count));   
+        }
+        
+        addBooksButton.setBounds(365,65,140,60);
+        addBooksButton.addActionListener(this);
+        addBooksButton.setFocusable(false);
+        
+        labelFooter.setLayout(null); // Center the panel
+        labelFooter.setBackground(Color.decode("#021526"));
+        labelFooter.setPreferredSize(new Dimension(700,200));
+        
+        labelFooter.add(exitButton);
+        labelFooter.add(addBooksButton);
         
         JPanel container = new JPanel();
         JPanel border1 = new JPanel();
@@ -103,31 +111,31 @@ public class LibraryViewBorrowedBooks implements ActionListener{
         container.setLayout(new BorderLayout());
         container.add(labelHeader, BorderLayout.NORTH);
         container.add(scrollPane, BorderLayout.CENTER);
+        container.add(labelFooter, BorderLayout.SOUTH);
         
         border1.setBackground(Color.decode("#6EACDA"));
-        border1.setPreferredSize(new Dimension(1200,5));
+        border1.setPreferredSize(new Dimension(5,5));
         
         border2.setBackground(Color.decode("#6EACDA"));
-        border2.setPreferredSize(new Dimension(5,600));
+        border2.setPreferredSize(new Dimension(5,5));
         
         border3.setBackground(Color.decode("#6EACDA"));
-        border3.setPreferredSize(new Dimension(1200,5));
+        border3.setPreferredSize(new Dimension(5,5));
         
         border4.setBackground(Color.decode("#6EACDA"));
-        border4.setPreferredSize(new Dimension(5,600));
+        border4.setPreferredSize(new Dimension(5,5));
         
         frame.setLayout(new BorderLayout());
-        
         frame.add(border1, BorderLayout.NORTH);
         frame.add(border2, BorderLayout.WEST);
         frame.add(border3, BorderLayout.SOUTH);
         frame.add(border4, BorderLayout.EAST);
 
-        frame.add(container);
+        frame.add(container, BorderLayout.CENTER);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("View Borrowed Books");
-        frame.setSize(1200, 600);
+        frame.setTitle("View Queue");
+        frame.setSize(700, 400);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -136,48 +144,43 @@ public class LibraryViewBorrowedBooks implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        if(e.getSource()==backButton){
+        if(e.getSource()==exitButton){
             frame.dispose();
-            StudentPage.studentFrame.setVisible(true);
+        }
+        
+        if(e.getSource()==addBooksButton){
+            libFuncs.addBooksFromQueue();
+            LibraryAddBooks.count = 0;
+            LibraryAddBooks.queueButton.setText("Queue");
+            JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Books Added", JOptionPane.PLAIN_MESSAGE);
+            frame.dispose();
         }
     }
 
     private void loadLabels() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Borrowed_Books.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("tempQueue.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 
-                String  bookBorrowerName = parts[0].trim(),
-                        bookAuthor = parts[2].trim(),
-                        bookTitle = parts[3].trim(),
-                        bookISBN = parts[4].trim();
+                String  bookAuthor = parts[0].trim(),
+                        bookTitle = parts[1].trim(),
+                        bookISBN = parts[2].trim();
                 
-                addLabel(bookBorrowerName, bookAuthor, bookTitle, bookISBN);
+                addLabel(bookAuthor, bookTitle, bookISBN);
                 
             }
         } catch (IOException e) {}
     }
     
-    private void addLabel(String bookBorrowerName,
-                          String author,
-                          String title,
-                          String isbn){
+    private void addLabel(String author, String title, String isbn) {
         
         // Create a unique key by concatenating author, title, and isbn
-        String uniqueBookKey = bookBorrowerName + "|" + author + "|" + title + "|" + isbn;
+        String uniqueBookKey = author + "|" + title + "|" + isbn;
 
         // Check if the combination of author, title, and isbn already exists
         if (!currentLabels.contains(uniqueBookKey)) {
-            
-            // Create and add Borrower Name  label
-            bookBorrowerNameLabel = new JLabel(bookBorrowerName);
-            bookBorrowerNameLabel.setForeground(Color.decode("#E2E2B6"));
-            bookBorrowerNameLabel.setFont(new Font(null, Font.PLAIN, 15));
-            bookBorrowerNamePanel.add(bookBorrowerNameLabel);
-            bookBorrowerNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
-            //Create and add author label
+            // Create and add author label
             bookAuthorLabel = new JLabel(author);
             bookAuthorLabel.setForeground(Color.decode("#E2E2B6"));
             bookAuthorLabel.setFont(new Font(null, Font.PLAIN, 15));
@@ -201,6 +204,6 @@ public class LibraryViewBorrowedBooks implements ActionListener{
     }
         
     public static void main(String[] args) {
-        new LibraryViewBorrowedBooks();
+        new viewQueue();
     }
 }
