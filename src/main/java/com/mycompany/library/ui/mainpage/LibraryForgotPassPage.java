@@ -13,8 +13,6 @@ import com.mycompany.library.users.UserData;
 
 import static com.mycompany.library.ui.mainpage.LibraryLogInPage.mainFrame;
 
-import java.awt.CardLayout;
-
 public class LibraryForgotPassPage implements ActionListener, MouseListener{
     
     ComponentStyles.CustomRoundedButton resetPassButton = new ComponentStyles.CustomRoundedButton("Reset Password");
@@ -101,6 +99,7 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
         usernameField.setBounds(30,50,250,35);
         usernameField.setBackground(Color.decode("#667860"));
         usernameField.setForeground(Color.decode("#E8F1DC"));
+        usernameField.setCaretColor(Color.white);
         usernameField.setBorder(new EmptyBorder(5,10,0,0));
         usernameField.setFont(new Font("Calibri", Font.PLAIN, 17));
         
@@ -108,12 +107,14 @@ public class LibraryForgotPassPage implements ActionListener, MouseListener{
         newPasswordField.setBorder(new EmptyBorder(5,10,5,0));
         newPasswordField.setForeground(Color.decode("#E8F1DC"));
         newPasswordField.setBackground(Color.decode("#667860"));
+        newPasswordField.setCaretColor(Color.white);
         newPasswordField.setFont(new Font(null, Font.PLAIN, 17));
         
         confirmNewPasswordField.setBounds(30,205,250,35);
         confirmNewPasswordField.setBorder(new EmptyBorder(5,10,5,0));
         confirmNewPasswordField.setBackground(Color.decode("#667860"));
         confirmNewPasswordField.setForeground(Color.decode("#E8F1DC"));
+        confirmNewPasswordField.setCaretColor(Color.white);
         confirmNewPasswordField.setFont(new Font(null, Font.PLAIN, 17));
         
         resetPassButton.setBounds(30,280,250,45);

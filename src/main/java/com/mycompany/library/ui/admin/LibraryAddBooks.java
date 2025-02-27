@@ -1,390 +1,398 @@
 package com.mycompany.library.ui.admin;
 
-import com.mycompany.library.functions.LibraryFunctions;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class LibraryAddBooks implements ActionListener{
-    
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import com.mycompany.library.ui.styles.ComponentStyles;
+import com.mycompany.library.functions.*;
+
+public class LibraryAddBooks implements MouseListener{
+
+    JFrame borrowBooksFrame = new JFrame();
+
+    public static JTextField bookTitleField = new JTextField();
+    public static JTextField bookAuthorField = new JTextField();
+
+    JLabel emptyBookTitleMessage = new JLabel();
+    JLabel emptyBookAuthorMessage = new JLabel();
+
+    JPanel addCoverPanel = new JPanel();
+    JLabel addIconLabel = new JLabel();
+    JLabel cover = new JLabel();
+
+    ComponentStyles.CustomRoundedButton2 confirmButton = new ComponentStyles.CustomRoundedButton2("Confirm");
+    ComponentStyles.CustomRoundedButton2 resetButton = new ComponentStyles.CustomRoundedButton2("Reset");
+
+    JPanel mainPanel = new JPanel();
+    ArrayList<JPanel> bookPanelsList = new ArrayList<>();
+
+    HashMap<JPanel, JLabel> bookLabelsList = new HashMap<>();
+
+    ComponentStyles.RoundedPanel homeButtonPanel = new ComponentStyles.RoundedPanel(20);
+
     LibraryFunctions libFuncs = new LibraryFunctions();
 
-    JFrame frame = new JFrame();
-    JPanel panelContainer = new JPanel();
-    JPanel labelFooter = new JPanel();
-    JPanel labelHeader = new JPanel();
-    JLabel authorLabel = new JLabel("Author");
-    JLabel titleLabel = new JLabel("Title");
-    JLabel ISBNLabel = new JLabel("ISBN");
-    JPanel bookAuthorPanel = new JPanel();
-    JPanel bookTitlePanel = new JPanel();
-    JPanel bookISBNPanel = new JPanel();
-    JLabel bookAuthorLabel;
-    JLabel bookTitleLabel;
-    JLabel bookISBNLabel;
-    
-    JLabel EnterAuthorMessageLabel = new JLabel();
-    JLabel EnterTitleMessageLabel = new JLabel();
-    JLabel EnterISBNMessageLabel = new JLabel();
-    JLabel newBookAuthorLabel = new JLabel("Enter Author:");
-    JLabel newBookTitleLabel = new JLabel("Enter Title:");
-    JLabel newBookISBNLabel = new JLabel("Enter ISBN:");
-    
-    JTextField newBookAuthorField = new JTextField();
-    JTextField newBookTitleField = new JTextField();
-    JTextField newBookISBNField = new JTextField(); 
-    
-    static JButton queueButton = new JButton("Queue");
-    JButton viewQueueButton = new JButton("View Queue");
-    JButton confirmButton = new JButton("Confirm");
-    JButton resetButton = new JButton("Reset");
-    JButton backButton = new JButton("Back");
-    
-    private Set<String> currentLabels;
+    ComponentStyles.RoundedPanel inputPanel = new ComponentStyles.RoundedPanel(20);
 
-    public LibraryAddBooks() {
-        
-        currentLabels = new HashSet<>();
-        
-        panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.X_AXIS));
-        
-        bookAuthorPanel.setBackground(Color.decode("#03346E"));
-        bookAuthorPanel.setLayout(new BoxLayout(bookAuthorPanel, BoxLayout.Y_AXIS));
-        bookAuthorPanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
-        
-        bookTitlePanel.setBackground(Color.decode("#03346E"));
-        bookTitlePanel.setLayout(new BoxLayout(bookTitlePanel, BoxLayout.Y_AXIS));
-        bookTitlePanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
-        
-        bookISBNPanel.setBackground(Color.decode("#03346E"));
-        bookISBNPanel.setLayout(new BoxLayout(bookISBNPanel, BoxLayout.Y_AXIS));
-        bookISBNPanel.setMaximumSize(new Dimension(333,Integer.MAX_VALUE));
-        
-        panelContainer.add(bookAuthorPanel);
-        panelContainer.add(bookTitlePanel);
-        panelContainer.add(bookISBNPanel);
-        
-        JScrollPane scrollPane = new JScrollPane(panelContainer);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    public LibraryAddBooks(){
 
-        loadLabels();
-        
-        authorLabel.setBounds(135,15,50,12);
-        authorLabel.setForeground(Color.decode("#E2E2B6"));
-        authorLabel.setFont(new Font(null, Font.BOLD, 15));
-        
-        titleLabel.setBounds(460,15,50,12);
-        titleLabel.setForeground(Color.decode("#E2E2B6"));
-        titleLabel.setFont(new Font(null, Font.BOLD, 15));
-        
-        ISBNLabel.setBounds(775,15,50,12);
-        ISBNLabel.setForeground(Color.decode("#E2E2B6"));
-        ISBNLabel.setFont(new Font(null, Font.BOLD, 15));
-        
-        labelHeader.setLayout(null); // Center the panel
-        labelHeader.setPreferredSize(new Dimension(40,40));
-        labelHeader.setBackground(Color.decode("#021526"));
-        labelHeader.add(authorLabel);
-        labelHeader.add(titleLabel);
-        labelHeader.add(ISBNLabel);
-        
-        newBookAuthorLabel.setBounds(85,45,150,20);
-        newBookAuthorLabel.setForeground(Color.decode("#E2E2B6"));
-        newBookAuthorLabel.setFont(new Font(null, Font.BOLD,13));
-        
-        newBookTitleLabel.setBounds(85,125,150,20);
-        newBookTitleLabel.setForeground(Color.decode("#E2E2B6"));
-        newBookTitleLabel.setFont(new Font(null, Font.BOLD,13));
-        
-        newBookISBNLabel.setBounds(85,205,200,20);
-        newBookISBNLabel.setForeground(Color.decode("#E2E2B6"));
-        newBookISBNLabel.setFont(new Font(null, Font.BOLD,13));
-        
-        newBookAuthorField.setBounds(155,75,200,30);
-        newBookTitleField.setBounds(155,155,200,30);
-        newBookISBNField.setBounds(155,235,200,30);
-        
-        EnterAuthorMessageLabel.setBounds(155,105,140,15);
-        EnterAuthorMessageLabel.setForeground(Color.red);
-        EnterAuthorMessageLabel.setFont(new Font(null, Font.ITALIC,11));
-        
-        EnterTitleMessageLabel.setBounds(155,185,140,15);
-        EnterTitleMessageLabel.setForeground(Color.red);
-        EnterTitleMessageLabel.setFont(new Font(null, Font.ITALIC,11));
-        
-        EnterISBNMessageLabel.setBounds(155,265,140,15);
-        EnterISBNMessageLabel.setForeground(Color.red);
-        EnterISBNMessageLabel.setFont(new Font(null, Font.ITALIC,11));
-        
-        queueButton.setBounds(500,100,180,60);
-        queueButton.addActionListener(this);
-        queueButton.setFocusable(false);
-        
-        viewQueueButton.setBounds(705,100,180,60);
-        viewQueueButton.addActionListener(this);
-        viewQueueButton.setFocusable(false);
-        
-        confirmButton.setBounds(500,185,180,60);
-        confirmButton.addActionListener(this);
-        confirmButton.setFocusable(false);
-        
-        resetButton.setBounds(705,185,180,60);
-        resetButton.addActionListener(this);
-        resetButton.setFocusable(false);
-        
-        backButton.setBounds(30,350,80,20);
-        backButton.addActionListener(this);
-        backButton.setFocusable(false);
-        
-        labelFooter.setLayout(null); // Center the panel
-        labelFooter.setBackground(Color.decode("#021526"));
-        labelFooter.setPreferredSize(new Dimension(1000,400));
-        
-        labelFooter.add(newBookAuthorLabel);
-        labelFooter.add(newBookTitleLabel);
-        labelFooter.add(newBookISBNLabel);
-        labelFooter.add(EnterAuthorMessageLabel);
-        labelFooter.add(EnterTitleMessageLabel);
-        labelFooter.add(EnterISBNMessageLabel);
-        labelFooter.add(newBookAuthorField);
-        labelFooter.add(newBookTitleField);
-        labelFooter.add(newBookISBNField);
-        labelFooter.add(queueButton);
-        labelFooter.add(viewQueueButton);
-        labelFooter.add(confirmButton);
-        labelFooter.add(resetButton);
-        labelFooter.add(backButton);
-        
-        
-        JPanel container = new JPanel();
-        JPanel border1 = new JPanel();
-        JPanel border2 = new JPanel();
-        JPanel border3 = new JPanel();
-        JPanel border4 = new JPanel();
-        
-        container.setLayout(new BorderLayout());
-        container.add(labelHeader, BorderLayout.NORTH);
-        container.add(scrollPane, BorderLayout.CENTER);
-        container.add(labelFooter, BorderLayout.SOUTH);
-        
-        border1.setBackground(Color.decode("#6EACDA"));
-        border1.setPreferredSize(new Dimension(5,5));
-        
-        border2.setBackground(Color.decode("#6EACDA"));
-        border2.setPreferredSize(new Dimension(5,5));
-        
-        border3.setBackground(Color.decode("#6EACDA"));
-        border3.setPreferredSize(new Dimension(5,5));
-        
-        border4.setBackground(Color.decode("#6EACDA"));
-        border4.setPreferredSize(new Dimension(5,5));
-        
-        frame.setLayout(new BorderLayout());
-        frame.add(border1, BorderLayout.NORTH);
-        frame.add(border2, BorderLayout.WEST);
-        frame.add(border3, BorderLayout.SOUTH);
-        frame.add(border4, BorderLayout.EAST);
+        // ---------------------------------FRAME SET UP------------------------------//
+        ImageIcon logo = new ImageIcon("src/main/resources/images/logo.png");
 
-        frame.add(container, BorderLayout.CENTER);
+        borrowBooksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        borrowBooksFrame.setSize(950,600);
+        borrowBooksFrame.setResizable(false);
+        borrowBooksFrame.setTitle("Add/Remove Books");
+        borrowBooksFrame.setIconImage(logo.getImage());
+        borrowBooksFrame.setLayout(new BorderLayout());
+        borrowBooksFrame.setLocationRelativeTo(null);
+
+        ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("src/main/resources/images/mainBG.jpg");
+        bgPanel.setPreferredSize(new Dimension(950,600));
+        bgPanel.setLayout(null);
+        //--------------------------------------------------------------------------//
+
+        //--------------------------------INPUT PANEL------------------------------//
         
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("View/Borrow Books");
-        frame.setSize(1000, 800);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        inputPanel.setBounds(110,350,725,200);
+        inputPanel.setLayout(null);
+        inputPanel.setBackground(new Color(103,120,97,160));
+
+        JLabel bookTitleLabel = new JLabel("Enter Book Title:");
+        bookTitleLabel.setBounds(30,20,200,25);
+        bookTitleLabel.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+        bookTitleLabel.setForeground(Color.decode("#fbf8ef"));
+
+        bookTitleField.setBounds(30,50,200,35);
+        bookTitleField.setBackground(Color.decode("#e5efda"));
+        bookTitleField.setBorder(new EmptyBorder(5,5,0,0));
+        bookTitleField.setFont(new Font("Calibri", Font.PLAIN, 17));
+
+        emptyBookTitleMessage.setBounds(30,85,135,15);
+        emptyBookTitleMessage.setForeground(Color.decode("#BE3144"));
+        emptyBookTitleMessage.setFont(new Font(null, Font.ITALIC,11));
+
+        JLabel bookAuthorLabel = new JLabel("Enter Book Author:");
+        bookAuthorLabel.setBounds(30,100,185,25);
+        bookAuthorLabel.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+        bookAuthorLabel.setForeground(Color.decode("#fbf8ef"));
+
+        bookAuthorField.setBounds(30,130,200,35);
+        bookAuthorField.setBackground(Color.decode("#e5efda"));
+        bookAuthorField.setBorder(new EmptyBorder(5,5,0,0));
+        bookAuthorField.setFont(new Font("Calibri", Font.PLAIN, 17));
+
+        emptyBookAuthorMessage.setBounds(30,165,135,15);
+        emptyBookAuthorMessage.setForeground(Color.decode("#BE3144"));
+        emptyBookAuthorMessage.setFont(new Font(null, Font.ITALIC,11));
+
+        JLabel addBookLabel = new JLabel("Add Book Cover:");
+        addBookLabel.setBounds(300,20,200,25);
+        addBookLabel.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+        addBookLabel.setForeground(Color.decode("#fbf8ef"));
+
+        ImageIcon a = new ImageIcon("src/main/resources/images/addCover.png");
+        Image b = a.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        ImageIcon addIcon = new ImageIcon(b);
+
+        // add Cover
+        addCoverPanel.setBounds(340,50,80,115);
+        addCoverPanel.setLayout(new BorderLayout());
+        addCoverPanel.setBackground(new Color(229,239,218,255));
+        addCoverPanel.addMouseListener(this);
+        
+        addIconLabel.setIcon(addIcon);
+        addIconLabel.setVerticalAlignment(JLabel.CENTER);
+        addIconLabel.setHorizontalAlignment(JLabel.CENTER);
+        addIconLabel.setVisible(false);
+        addCoverPanel.add(addIconLabel);
+
+        confirmButton.setBounds(500,60,150,40);
+        confirmButton.addMouseListener(this);
+
+        resetButton.setBounds(500,110,150,40);
+        resetButton.addMouseListener(this);
+        //-------------------------------------------------------------------------//
+
+        //-------------------------------MAIN PANEL--------------------------------//
+        ComponentStyles.RoundedPanel upperLine = new ComponentStyles.RoundedPanel(10);
+        upperLine.setBounds(10,10,910,2);
+
+        ComponentStyles.RoundedPanel bottomLine = new ComponentStyles.RoundedPanel(10);
+        bottomLine.setBounds(10,330,910,2);
+
+        mainPanel.setLayout(new GridLayout(0,4,10,10));
+        mainPanel.setBorder(new EmptyBorder(10,10,15,10));
+        mainPanel.setOpaque(false);
+
+        addPanel();
+
+        JScrollPane mainScrollPane = new JScrollPane(mainPanel);
+        mainScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        mainScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainScrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        mainScrollPane.setBounds(20,20,890,300);
+        mainScrollPane.setOpaque(false);
+        mainScrollPane.getViewport().setOpaque(false);
+        mainScrollPane.setBorder(null);
+        //--------------------------------------------------------------------------//
+
+        //--------------------------HOME BUTTON-------------------------------------//
+        ImageIcon origIcon = new ImageIcon("src/main/resources/images/home.png");
+        Image scaledIcon = origIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon homeIcon = new ImageIcon(scaledIcon);
+
+        homeButtonPanel.setBounds(10,510,40,40);
+        homeButtonPanel.setBackground(new Color(252,255,242,120));
+        homeButtonPanel.addMouseListener(this);
+
+        JLabel homeIconLabel = new JLabel(homeIcon);
+        homeButtonPanel.add(homeIconLabel);
+
+        //---------------------------------------------------------------------------//
+
+        //--------------------ADDING OF COMPONENTS (INPUT PANEL)---------------------//
+        inputPanel.add(bookTitleLabel);
+        inputPanel.add(bookTitleField);
+        inputPanel.add(emptyBookTitleMessage);
+        inputPanel.add(bookAuthorField);
+        inputPanel.add(bookAuthorLabel);
+        inputPanel.add(emptyBookAuthorMessage);
+        inputPanel.add(addBookLabel);
+        inputPanel.add(addCoverPanel);
+        inputPanel.add(confirmButton);
+        inputPanel.add(resetButton);
+        //----------------------------------------------------------------------------//
+        
+        //--------------------ADDING OF COMPONENTS (MAIN PANEL)-----------------------//
+        bgPanel.add(inputPanel);
+        bgPanel.add(mainScrollPane);
+        bgPanel.add(upperLine);
+        bgPanel.add(bottomLine);
+        bgPanel.add(homeButtonPanel);
+
+        borrowBooksFrame.add(bgPanel);
+        borrowBooksFrame.setVisible(true);
+        //----------------------------------------------------------------------------//
     }
-    
-    static int count;
-    
+
+    public void addPanel(){
+
+        File bookCoversFolder = new File("src/main/resources/BookCovers");
+
+        File[] bookCoversFolderFiles = bookCoversFolder.listFiles(File::isFile);
+        if(bookCoversFolderFiles != null){
+            for(File cover : bookCoversFolderFiles){
+
+                String[] bookDescription = cover.getName().split("[_.]");
+
+                String title = bookDescription[0];
+                String author = bookDescription[1];
+
+                if(libFuncs.checkIfBorrowed(title, author)){
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                    continue;
+                }
+
+                ImageIcon origIcon = new ImageIcon(cover.getPath());
+                Image scaledIcon = origIcon.getImage().getScaledInstance(160, 230, Image.SCALE_SMOOTH);
+                ImageIcon bookCover = new ImageIcon(scaledIcon);
+                
+                JPanel books = new JPanel();
+                books.setPreferredSize(new Dimension(200,290));
+                books.setLayout(new FlowLayout(FlowLayout.CENTER,0,10));
+                books.setOpaque(true);
+                books.setBackground(new Color(255,255,255,0));
+                books.addMouseListener(this);
+
+                JLabel booksLabel = new JLabel();
+                booksLabel.setIcon(bookCover);
+                booksLabel.setText("<html><div style='text-align: center;'>" + title + "<br><i>" + author + "</i></div></html>");
+                booksLabel.setFont(new Font("Serif", Font.BOLD,15));
+                booksLabel.setHorizontalTextPosition(JLabel.CENTER);
+                booksLabel.setVerticalTextPosition(JLabel.BOTTOM);
+                booksLabel.setHorizontalAlignment(JLabel.CENTER);
+                booksLabel.setIconTextGap(5);
+
+                books.add(booksLabel);
+                mainPanel.add(books);
+                
+                bookPanelsList.add(books);
+                bookLabelsList.put(books,booksLabel);
+            }
+        }
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        String bookAuthorName = newBookAuthorField.getText();
-        String bookTitle = newBookTitleField.getText(); 
-        String bookISBN = newBookISBNField.getText();
-        
-        if(e.getSource()==backButton){
-            frame.dispose();
+    public void mouseClicked(MouseEvent e) {
+
+        if(e.getSource()==homeButtonPanel){
+            borrowBooksFrame.dispose();
             AdminPage.adminFrame.setVisible(true);
         }
-        
+
         if(e.getSource()==resetButton){
-            newBookAuthorField.setText(null);
-            newBookTitleField.setText(null);
-            newBookISBNField.setText(null);
-            EnterAuthorMessageLabel.setText(null);
-            EnterTitleMessageLabel.setText(null);
-            EnterISBNMessageLabel.setText(null);
-            newBookAuthorField.requestFocusInWindow();
+
+            bookTitleField.setText(null);
+            bookTitleField.requestFocusInWindow();
+            bookAuthorField.setText(null);
+            emptyBookTitleMessage.setText(null);
+            emptyBookAuthorMessage.setText(null);
+            addCoverPanel.removeAll();
+            addCoverPanel.add(addIconLabel);
+            inputPanel.revalidate();
+            inputPanel.repaint();
+            
         }
-        
-        if(e.getSource()==queueButton){
-            
-            if(bookAuthorName.isEmpty()){
-               EnterAuthorMessageLabel.setText("Please Enter Author Name");
-               return;
-            }
-            
-            if(bookTitle.isEmpty()){
-                EnterTitleMessageLabel.setText("Please Enter Title");
-                return;
-            }
-            
-            if(bookISBN.isEmpty()){
-                EnterISBNMessageLabel.setText("Please Enter ISBN");
-                return;
-            }
-            
-            if(!libFuncs.checkQueue(bookISBN)){
-                libFuncs.tempQueue(bookTitle, bookAuthorName, bookISBN);
-                
-                newBookAuthorField.setText(null);
-                newBookTitleField.setText(null);
-                newBookISBNField.setText(null);
-                EnterAuthorMessageLabel.setText(null);
-                EnterTitleMessageLabel.setText(null);
-                EnterISBNMessageLabel.setText(null);
-                newBookAuthorField.requestFocusInWindow();
-                count++;
-                //checkQueueCount();
-                queueButton.setText(String.format("Queue(%d)", count));
-                
-            }else{
-                JOptionPane.showMessageDialog(frame, "This Book is Already Added in Queue!", "Book Already Added", JOptionPane.PLAIN_MESSAGE);
-            }
-        }
-        
-        if(e.getSource()==viewQueueButton){
-            
-            if(!new File("tempQueue.txt").exists()){
-                JOptionPane.showMessageDialog(frame, "There are currently no books in queue", "No Queue", JOptionPane.PLAIN_MESSAGE);
-                return;
-            }
-            
-            new viewQueue();
-        }
-        
+
         if(e.getSource()==confirmButton){
             
-            EnterAuthorMessageLabel.setText(null);
-            EnterTitleMessageLabel.setText(null);
-            EnterISBNMessageLabel.setText(null);
-            
-            if(!libFuncs.checkAddedBooks(bookISBN) 
-                    &&(bookAuthorName.isEmpty() 
-                    && bookTitle.isEmpty() 
-                    && bookISBN.isEmpty())
-                    && count != 0){
-                
-                JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Book Added", JOptionPane.PLAIN_MESSAGE);
-                
-                libFuncs.addBooksFromQueue();
-                newBookAuthorField.setText(null);
-                newBookTitleField.setText(null);
-                newBookISBNField.setText(null);
-                EnterAuthorMessageLabel.setText(null);
-                EnterTitleMessageLabel.setText(null);
-                EnterISBNMessageLabel.setText(null);
-                count=0;
-                queueButton.setText("Queue");
-                newBookAuthorField.requestFocusInWindow();
-                return;
-            }
-            
-            if(bookAuthorName.isEmpty()){
-                EnterAuthorMessageLabel.setText("Please Enter Author Name");
-                return;
-            }
-            
+            String bookTitle = bookTitleField.getText();
+            String bookAuthor = bookAuthorField.getText();
+
+            emptyBookTitleMessage.setText(null);
+            emptyBookAuthorMessage.setText(null);
+
             if(bookTitle.isEmpty()){
-                EnterTitleMessageLabel.setText("Please Enter Title");
+                emptyBookTitleMessage.setText("Please enter book title");
                 return;
             }
-            
-            if(bookISBN.isEmpty()){
-                EnterISBNMessageLabel.setText("Please Enter ISBN");
+
+            if(bookAuthor.isEmpty()){
+                emptyBookAuthorMessage.setText("Please enter book author");
                 return;
             }
-            
-            if(libFuncs.checkAddedBooks(bookISBN)){
-                JOptionPane.showMessageDialog(frame, "This Book is Already Added!", "Book Already Added", JOptionPane.PLAIN_MESSAGE);
-                
-            } else{
-                libFuncs.fileWriterBooks(bookAuthorName, bookTitle, bookISBN);
-                
-                if(count != 0){
-                    libFuncs.addBooksFromQueue();
+
+            File bookCoversFolder = new File("src/main/resources/BookCovers");
+
+            File[] bookCoversFolderFiles = bookCoversFolder.listFiles(File::isFile);
+            if(bookCoversFolderFiles != null){
+                for(File cover : bookCoversFolderFiles){
+
+                    String[] bookDescription = cover.getName().split("[_.]");
+
+                    String title = bookDescription[0];
+                    String author = bookDescription[1];
+
+                    if(bookTitle.equals(title) && bookAuthor.equals(author)){
+                        JOptionPane.showMessageDialog(AdminPage.adminFrame, "This Book is already added!", "Already Added", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    
                 }
-                
-                JOptionPane.showMessageDialog(frame, "Book/s Added Successfully!", "Book Added", JOptionPane.PLAIN_MESSAGE);
+            }
+            new MoveFiles();
 
-                newBookAuthorField.setText(null);
-                newBookTitleField.setText(null);
-                newBookISBNField.setText(null);
-                EnterAuthorMessageLabel.setText(null);
-                EnterTitleMessageLabel.setText(null);
-                EnterISBNMessageLabel.setText(null);
-                count = 0;
-                queueButton.setText("Queue");
-                newBookAuthorField.requestFocusInWindow();
+            addCoverPanel.removeAll();
+            addCoverPanel.add(addIconLabel);
+            bookTitleField.setText(null);
+            bookAuthorField.setText(null);
+            inputPanel.revalidate();
+            inputPanel.repaint();
+
+            mainPanel.removeAll();
+            addPanel();
+            mainPanel.revalidate();
+            mainPanel.repaint();
+
+            JOptionPane.showMessageDialog(AdminPage.adminFrame, "Book Added Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            
+        }
+
+        for(JPanel book : bookPanelsList){
+            if(e.getSource()==book){
+                JLabel bookLabel = bookLabelsList.get(book);
+                
+                String text = bookLabel.getText().replaceAll("<[^>]*>", "_").trim();
+
+                String[] info = text.split("__");
+
+                JLabel infoLabel = new JLabel("<html>" + info[1] + "&emsp;-&emsp;" + info[2] + "</html>");
+                infoLabel.setFont(new Font("Serif", Font.BOLD,12));
+                infoLabel.setHorizontalTextPosition(JLabel.LEFT);
+                break;
+            }
+        }
+
+        if(e.getSource()==addCoverPanel){
+            AddCover getCoverPath = new AddCover();
+            String getCover = getCoverPath.getCover();
+
+            ImageIcon origIcon = new ImageIcon(getCover);
+            Image scaledImage = origIcon.getImage().getScaledInstance(80, 115, Image.SCALE_SMOOTH);
+            ImageIcon addCover = new ImageIcon(scaledImage); 
+
+            cover.setIcon(addCover);
+            addCoverPanel.add(cover);
+
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if(e.getSource()==homeButtonPanel){
+            homeButtonPanel.setBackground(new Color(252,255,242,60));
+            
+        }
+
+        if(e.getSource()==addCoverPanel){
+            addCoverPanel.setBackground(new Color(229,239,218,60));
+            addIconLabel.setVisible(true);
+            inputPanel.revalidate();
+            inputPanel.repaint();
+        }
+
+        for(JPanel panels : bookPanelsList){
+            if(e.getSource()==panels){
+                panels.setOpaque(true);
+                panels.setBackground(new Color(255,255,255,80));
+
+                panels.getParent().repaint();
+            }
+        }
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if(e.getSource()==homeButtonPanel){
+            homeButtonPanel.setBackground(new Color(252,255,242,120));
+        }
+
+        if(e.getSource()==addCoverPanel){
+            addCoverPanel.setBackground(new Color(229,239,218,255));
+            addIconLabel.setVisible(false);
+            inputPanel.revalidate();
+            inputPanel.repaint();
+        }
+
+        for(JPanel panels : bookPanelsList){
+            if(e.getSource()==panels){
+                panels.setBackground(new Color(255,255,255,0));
+                panels.setOpaque(false);
+                
+                panels.getParent().repaint();
             }
         }
     }
-    
-    private void loadLabels() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Books.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-                
-                String  bookAuthor = parts[0].trim(),
-                        bookTitle = parts[1].trim(),
-                        bookISBN = parts[2].trim();
-                
-                addLabel(bookAuthor, bookTitle, bookISBN);
-                
-            }
-        } catch (IOException e) {
-        }
-    }
-    
-    private void addLabel(String author, String title, String isbn) {
-        
-        // Create a unique key by concatenating author, title, and isbn
-        String uniqueBookKey = author + "|" + title + "|" + isbn;
-
-        // Check if the combination of author, title, and isbn already exists
-        if (!currentLabels.contains(uniqueBookKey)) {
-            // Create and add author label
-            bookAuthorLabel = new JLabel(author);
-            bookAuthorLabel.setForeground(Color.decode("#E2E2B6"));
-            bookAuthorLabel.setFont(new Font(null, Font.PLAIN, 15));
-            bookAuthorPanel.add(bookAuthorLabel);
-            bookAuthorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            // Create and add title label
-            bookTitleLabel = new JLabel(title);
-            bookTitleLabel.setForeground(Color.decode("#E2E2B6"));
-            bookTitleLabel.setFont(new Font(null, Font.PLAIN, 15));
-            bookTitlePanel.add(bookTitleLabel);
-            bookTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            // Create and add ISBN label
-            bookISBNLabel = new JLabel(isbn);
-            bookISBNLabel.setForeground(Color.decode("#E2E2B6"));
-            bookISBNLabel.setFont(new Font(null, Font.PLAIN, 15));
-            bookISBNPanel.add(bookISBNLabel);
-            bookISBNLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        }
-    }
-        
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new LibraryAddBooks();
     }
 }

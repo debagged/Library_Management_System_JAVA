@@ -105,8 +105,6 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         //===================================================================//
         //----------------------------MAIN PANEL---------------------------- //
         //===================================================================//
-        centerPanel.setBackground(Color.decode("#182c25"));
-        centerPanel.setPreferredSize(new Dimension(450,470));
         centerPanel.setOpaque(false);
         centerPanel.setLayout(new BorderLayout());
         
@@ -195,6 +193,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         usernameField.setBounds(30,60,250,35);
         usernameField.setBackground(Color.decode("#667860"));
         usernameField.setForeground(Color.decode("#E8F1DC"));
+        usernameField.setCaretColor(Color.white);
         usernameField.setBorder(new EmptyBorder(5,5,0,0));
         usernameField.setFont(new Font("Calibri", Font.PLAIN, 17));
         usernameField.addKeyListener(this);
@@ -203,6 +202,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         passwordField.setBorder(new EmptyBorder(5,5,5,0));
         passwordField.setBackground(Color.decode("#667860"));
         passwordField.setForeground(Color.decode("#E8F1DC"));
+        passwordField.setCaretColor(Color.white);
         passwordField.setFont(new Font(null, Font.PLAIN, 17));
         passwordField.addKeyListener(this);
         

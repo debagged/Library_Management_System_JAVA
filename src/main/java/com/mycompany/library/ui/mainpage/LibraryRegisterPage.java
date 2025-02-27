@@ -102,6 +102,7 @@ public class LibraryRegisterPage implements ActionListener, MouseListener{
         usernameField.setBounds(30,50,250,35);
         usernameField.setBackground(Color.decode("#667860"));
         usernameField.setForeground(Color.decode("#E8F1DC"));
+        usernameField.setCaretColor(Color.white);
         usernameField.setBorder(new EmptyBorder(5,10,0,0));
         usernameField.setFont(new Font("Calibri", Font.PLAIN, 17));
         
@@ -109,12 +110,14 @@ public class LibraryRegisterPage implements ActionListener, MouseListener{
         passwordField.setBorder(new EmptyBorder(5,10,5,0));
         passwordField.setBackground(Color.decode("#667860"));
         passwordField.setForeground(Color.decode("#E8F1DC"));
+        passwordField.setCaretColor(Color.white);
         passwordField.setFont(new Font(null, Font.PLAIN, 17));
         
         confirmPasswordField.setBounds(30,205,250,35);
         confirmPasswordField.setBorder(new EmptyBorder(5,10,5,0));
         confirmPasswordField.setBackground(Color.decode("#667860"));
         confirmPasswordField.setForeground(Color.decode("#E8F1DC"));
+        confirmPasswordField.setCaretColor(Color.white);
         confirmPasswordField.setFont(new Font(null, Font.PLAIN, 17));
         
         registerButton.setBounds(30,280,250,45);

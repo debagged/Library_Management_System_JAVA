@@ -23,8 +23,6 @@ public class BorrowBooks implements MouseListener{
     JLabel emptyStudNameMessage = new JLabel();
     JLabel emptyStudIDMessage = new JLabel();
 
-    JComboBox<String> choices = new JComboBox<>(); 
-
     ComponentStyles.CustomRoundedButton2 confirmButton = new ComponentStyles.CustomRoundedButton2("Confirm");
     ComponentStyles.CustomRoundedButton2 clearListButton = new ComponentStyles.CustomRoundedButton2("Clear List");
     ComponentStyles.CustomRoundedButton2 resetButton = new ComponentStyles.CustomRoundedButton2("Reset");
@@ -43,10 +41,13 @@ public class BorrowBooks implements MouseListener{
     public BorrowBooks(){
 
         // ---------------------------------FRAME SET UP------------------------------//
+        ImageIcon logo = new ImageIcon("src/main/resources/images/logo.png");
+
         borrowBooksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         borrowBooksFrame.setSize(950,600);
         borrowBooksFrame.setResizable(false);
         borrowBooksFrame.setTitle("Borrow Books");
+        borrowBooksFrame.setIconImage(logo.getImage());
         borrowBooksFrame.setLayout(new BorderLayout());
         borrowBooksFrame.setLocationRelativeTo(null);
 
