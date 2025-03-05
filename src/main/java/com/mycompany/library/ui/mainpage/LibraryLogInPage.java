@@ -37,9 +37,9 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
     
     JLabel register1 = new JLabel("Don't have an account?");
     JLabel forgotPass = new JLabel("Forgot Password?");
-    JLabel forgotPassLine = new JLabel("__________________");
+    JLabel forgotPassLine = new JLabel("______________");
     JLabel register2 = new JLabel("Register");
-    JLabel registerLine = new JLabel("__________");
+    JLabel registerLine = new JLabel("_______");
     
     public LibraryLogInPage(){
         
@@ -57,7 +57,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         mainFrame.setLocationRelativeTo(null);
         
         ComponentStyles.BackgroundPanel bgPanel = new ComponentStyles.BackgroundPanel("src/main/resources/images/mainBG.jpg");
-        bgPanel.setPreferredSize(new Dimension(950,600));        
+        bgPanel.setPreferredSize(new Dimension(950,600));
         bgPanel.setLayout(new BorderLayout());
         //-------------------------------------------------------------------- //
         
@@ -143,6 +143,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         
         JLayeredPane logInField = new JLayeredPane();
         logInField.setBounds(0,0,350,460);
+        
         ComponentStyles.RoundedPanel logInFieldContainer = new ComponentStyles.RoundedPanel(20);
         logInFieldContainer.setBackground(Color.decode("#E8F1DC"));
         
@@ -158,7 +159,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         logInContainerHeader.setBounds(50,15,100,40);
         logInContainerHeader.add(logIn);
         
-        logInFieldContainer.setBounds(20,35,310,390);
+        logInFieldContainer.setBounds(20,40,310,390);
         logInFieldContainer.setLayout(null);
         
         logInField.add(logInFieldContainer, Integer.valueOf(0));
@@ -186,7 +187,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         emptyPasswordMessageLabel.setForeground(Color.decode("#BE3144"));
         emptyPasswordMessageLabel.setFont(new Font(null, Font.ITALIC, 11));
         
-        headerLabel.setBounds(150,90,200,35);
+        headerLabel.setBounds(150,50,200,35);
         headerLabel.setFont(new Font(null, Font.PLAIN, 30));
         
         usernameField.setBounds(30,60,250,35);

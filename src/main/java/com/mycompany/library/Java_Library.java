@@ -10,14 +10,5 @@ public class Java_Library{
     
 }
 
-/*
-Application Flow 
 
-Login Page 
-    As Admin
-        AddBooks
-        ViewBooks
-
-        
-
-*/
+ 
