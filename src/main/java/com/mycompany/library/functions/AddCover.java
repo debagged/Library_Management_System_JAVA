@@ -29,12 +29,11 @@ public class AddCover {
             cover = selectedFolder.getAbsolutePath();
         }
     }    
-    public static void main(String[] args) {
-        
-    }
 
     public String getCover(){
         return cover;
     }
 
 }
+
+
