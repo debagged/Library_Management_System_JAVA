@@ -4,13 +4,17 @@
     <groupId>com.mycompany</groupId>
     <artifactId>LibraryManagementSystem</artifactId>
     <version>1.0-SNAPSHOT</version>
+    
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
-        <exec.mainClass>com.mycompany.java_library.Java_Library</exec.mainClass>
+        <exec.mainClass>com.mycompany.library.Java_Library</exec.mainClass>
     </properties>
+    
+    
+    
 
   <dependencies>
     <dependency>
@@ -36,7 +40,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>${exec.mainClass}</mainClass>
+                    <mainClass>com.mycompany.library.Java_Library</mainClass>
                 </configuration>
             </plugin>
         </plugins>
