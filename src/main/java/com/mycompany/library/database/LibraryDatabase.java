@@ -25,16 +25,7 @@ public class LibraryDatabase {
                username = null,
                password = null;
 
-        // user_ID = "06230002108"; 
-        // given_name = "Angelo";
-        // middle_name = "Florendo";
-        // last_name = "Goloyugo";
-        // gender = "Male";
-        // campus_email = "afgoloyugo2108lag@student.fatima.edu.ph";
-        // course = "Computer Science";
-        // username = "angelo1234";
-        // password = "admin1234@";
-
+    
         //AI generated Person
         user_ID = "06240002298";
         given_name = "Lorenzo";
@@ -86,13 +77,4 @@ public class LibraryDatabase {
 
     PASS:
     iQz13TG7uL
-
-
-    Trial Insert
-    INSERT INTO Users (
-        user_ID, given_name, middle_name, last_name, gender, campus_email, course 
-    )
-    VALUES
-    ( "06230002108", "Angelo", "Florendo","Goloyugo", "Male", "afgoloyugo@edu.ph", "Computer Science");
-
-*/
+    */
