@@ -112,6 +112,6 @@ public class LibraryDatabase {
     USE:
     mysql -h sql12.freesqldatabase.com -u sql12767889 -p
 
-    PASS:
+    S:
     iQz13TG7uL
     */

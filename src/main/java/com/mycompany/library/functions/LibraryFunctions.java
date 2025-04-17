@@ -58,16 +58,6 @@ public class LibraryFunctions {
                 
             }
 
-            String insertIntoBookTags = "INSERT INTO Book_Tags (ISBN, tags_ID) VALUES (?, ?)";
-            try (PreparedStatement book_tags_stmt = connect.prepareStatement(insertIntoBookTags)){
-                for (String tag : tags){
-                    int tags_ID = tagChecker(tag);
-                    book_tags_stmt.setString(1, ISBN);
-                    book_tags_stmt.setInt(2, tags_ID);
-                    book_tags_stmt.executeUpdate();
-                }
-            }
-
             String insertIntoCourse = "INSERT INTO Book_Course (ISBN, course_ID) VALUES (?, ?)";
             try (PreparedStatement book_course_stmt = connect.prepareStatement(insertIntoCourse)){
                     String course_ID = UserData.courseChecker(course);
@@ -208,55 +198,7 @@ public class LibraryFunctions {
         return genre_ID;
     }
 
-    
-    public static void tagAdder(String tagToAdd) {
-        Connection connect = UserData.checkDatabaseConnection();
-    
-        int existingTagID = tagChecker(tagToAdd);
-    
-        String insertIntoTag = "INSERT INTO Tags (tag_name) VALUES (?)";
-        if (existingTagID != 0) {
-            JOptionPane.showMessageDialog(null, "Tag already exists in the database", "Duplicate Tag", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-    
-        try (PreparedStatement addToTag = connect.prepareStatement(insertIntoTag)) {
-    
-            addToTag.setString(1, tagToAdd);
-            int rowsAffected = addToTag.executeUpdate();
-    
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Tag added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Tag insertion failed.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-    
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "An error occurred while inserting tag.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }    
-
-    public static int tagChecker (String tags){
-        Connection connect = UserData.checkDatabaseConnection(); 
-        int tags_ID = 0;
-
-        String tag_query = "SELECT genre_ID FROM Genres WHERE genre_name = ?";
-        try(PreparedStatement tagStmt = connect.prepareStatement(tag_query)) {
-            tagStmt.setString(1, tags);
-            ResultSet tagResult = tagStmt.executeQuery();
-
-            if (tagResult.next()) {
-                // Course exists, get its ID
-                tags_ID = tagResult.getInt("genre_ID");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tags_ID;
-    }
-    
+   
     public static int statusChecker(String statusName) {
         Connection connect = UserData.checkDatabaseConnection(); 
         int status_ID = 0;
