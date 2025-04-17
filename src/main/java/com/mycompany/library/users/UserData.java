@@ -267,9 +267,8 @@ public class UserData{
     public static Connection checkDatabaseConnection(){
         Connection connect = LibraryDatabase.getConnection();
         if (connect == null){
-            System.out.println("Database is not connected. Please try again");
+            JOptionPane.showMessageDialog(null, "Database is not connected. Please try again", "Connection Error", JOptionPane.INFORMATION_MESSAGE);
         }
-
         return connect;
     }
 
