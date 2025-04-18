@@ -81,9 +81,6 @@ public class LibraryDatabase {
 
         LibraryFunctions.addBooksTODB(ISBN, book_title, edition, book_author, publisher, year_published, pages, date_acquired, call_number, genres, tags, course, status);
 
-
-
-
     }
 
     //function connected to the private getConnected function
@@ -114,4 +111,4 @@ public class LibraryDatabase {
 
     S:
     iQz13TG7uL
-    */
+*/
