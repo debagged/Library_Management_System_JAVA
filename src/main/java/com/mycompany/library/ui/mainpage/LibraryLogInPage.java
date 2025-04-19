@@ -46,7 +46,7 @@ public class LibraryLogInPage implements KeyListener, MouseListener{
         //===================================================================//
         //---------------------------FRAME SET UP--------------------------- //
         //===================================================================//
-        ImageIcon icon = new ImageIcon("logo.jpg");
+        ImageIcon icon = new ImageIcon("src/main/resources/images/logo.pg");
         
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(950,600);
